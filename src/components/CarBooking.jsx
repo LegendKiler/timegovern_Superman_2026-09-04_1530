@@ -6,124 +6,13 @@ import { downloadCarVoucher } from './CarBookingPdf'
 import CalendarExport from './CalendarExport'
 import { useAuth } from '../context/AuthContext'
 import { useUser } from '../context/UserContext'
+import { searchLocations } from '../data/locations'
 import { getDefaultCityForCountry, getAirportsForCountry, countryFlag } from '../data/airports'
 import { Car, MapPin, Calendar, Users, Search, Loader2, AlertCircle, ExternalLink, Download, Fuel, Gauge, Users2, Briefcase, Snowflake, CheckCircle2, Sparkles, Zap, Star, ChevronDown, Plane, Building2, TrendingDown, TrendingUp, DollarSign, Award, Heart } from 'lucide-react'
 
 // ============================================================
 // LOCATION DATABASE (unchanged)
 // ============================================================
-const WORLD_LOCATIONS = [
-  { name: 'Mumbai', country: 'India', type: 'city', flag: 'ðŸ‡®ðŸ‡³' },
-  { name: 'Delhi', country: 'India', type: 'city', flag: 'ðŸ‡®ðŸ‡³' },
-  { name: 'Bangalore', country: 'India', type: 'city', flag: 'ðŸ‡®ðŸ‡³' },
-  { name: 'Chennai', country: 'India', type: 'city', flag: 'ðŸ‡®ðŸ‡³' },
-  { name: 'Kolkata', country: 'India', type: 'city', flag: 'ðŸ‡®ðŸ‡³' },
-  { name: 'Hyderabad', country: 'India', type: 'city', flag: 'ðŸ‡®ðŸ‡³' },
-  { name: 'Goa', country: 'India', type: 'city', flag: 'ðŸ‡®ðŸ‡³' },
-  { name: 'Karachi', country: 'Pakistan', type: 'city', flag: 'ðŸ‡µðŸ‡°' },
-  { name: 'Lahore', country: 'Pakistan', type: 'city', flag: 'ðŸ‡µðŸ‡°' },
-  { name: 'Islamabad', country: 'Pakistan', type: 'city', flag: 'ðŸ‡µðŸ‡°' },
-  { name: 'Dhaka', country: 'Bangladesh', type: 'city', flag: 'ðŸ‡§ðŸ‡©' },
-  { name: 'Colombo', country: 'Sri Lanka', type: 'city', flag: 'ðŸ‡±ðŸ‡°' },
-  { name: 'Kathmandu', country: 'Nepal', type: 'city', flag: 'ðŸ‡³ðŸ‡µ' },
-  { name: 'Male', country: 'Maldives', type: 'city', flag: 'ðŸ‡²ðŸ‡»' },
-  { name: 'Cape Town', country: 'South Africa', type: 'city', flag: 'ðŸ‡¿ðŸ‡¦' },
-  { name: 'Johannesburg', country: 'South Africa', type: 'city', flag: 'ðŸ‡¿ðŸ‡¦' },
-  { name: 'Durban', country: 'South Africa', type: 'city', flag: 'ðŸ‡¿ðŸ‡¦' },
-  { name: 'Cairo', country: 'Egypt', type: 'city', flag: 'ðŸ‡ªðŸ‡¬' },
-  { name: 'Alexandria', country: 'Egypt', type: 'city', flag: 'ðŸ‡ªðŸ‡¬' },
-  { name: 'Sharm El Sheikh', country: 'Egypt', type: 'city', flag: 'ðŸ‡ªðŸ‡¬' },
-  { name: 'Marrakech', country: 'Morocco', type: 'city', flag: 'ðŸ‡²ðŸ‡¦' },
-  { name: 'Casablanca', country: 'Morocco', type: 'city', flag: 'ðŸ‡²ðŸ‡¦' },
-  { name: 'Nairobi', country: 'Kenya', type: 'city', flag: 'ðŸ‡°ðŸ‡ª' },
-  { name: 'Lagos', country: 'Nigeria', type: 'city', flag: 'ðŸ‡³ðŸ‡¬' },
-  { name: 'Accra', country: 'Ghana', type: 'city', flag: 'ðŸ‡¬ðŸ‡­' },
-  { name: 'Addis Ababa', country: 'Ethiopia', type: 'city', flag: 'ðŸ‡ªðŸ‡¹' },
-  { name: 'Zanzibar', country: 'Tanzania', type: 'city', flag: 'ðŸ‡¹ðŸ‡¿' },
-  { name: 'Mauritius', country: 'Mauritius', type: 'city', flag: 'ðŸ‡²ðŸ‡º' },
-  { name: 'Windhoek', country: 'Namibia', type: 'city', flag: 'ðŸ‡³ðŸ‡¦' },
-  { name: 'Gaborone', country: 'Botswana', type: 'city', flag: 'ðŸ‡§ðŸ‡¼' },
-  { name: 'Dubai', country: 'UAE', type: 'city', flag: 'ðŸ‡¦ðŸ‡ª' },
-  { name: 'Abu Dhabi', country: 'UAE', type: 'city', flag: 'ðŸ‡¦ðŸ‡ª' },
-  { name: 'Sharjah', country: 'UAE', type: 'city', flag: 'ðŸ‡¦ðŸ‡ª' },
-  { name: 'Doha', country: 'Qatar', type: 'city', flag: 'ðŸ‡¶ðŸ‡¦' },
-  { name: 'Riyadh', country: 'Saudi Arabia', type: 'city', flag: 'ðŸ‡¸ðŸ‡¦' },
-  { name: 'Jeddah', country: 'Saudi Arabia', type: 'city', flag: 'ðŸ‡¸ðŸ‡¦' },
-  { name: 'Kuwait City', country: 'Kuwait', type: 'city', flag: 'ðŸ‡°ðŸ‡¼' },
-  { name: 'Manama', country: 'Bahrain', type: 'city', flag: 'ðŸ‡§ðŸ‡­' },
-  { name: 'Muscat', country: 'Oman', type: 'city', flag: 'ðŸ‡´ðŸ‡²' },
-  { name: 'Amman', country: 'Jordan', type: 'city', flag: 'ðŸ‡¯ðŸ‡´' },
-  { name: 'Beirut', country: 'Lebanon', type: 'city', flag: 'ðŸ‡±ðŸ‡§' },
-  { name: 'Tel Aviv', country: 'Israel', type: 'city', flag: 'ðŸ‡®ðŸ‡±' },
-  { name: 'Istanbul', country: 'Turkey', type: 'city', flag: 'ðŸ‡¹ðŸ‡·' },
-  { name: 'Antalya', country: 'Turkey', type: 'city', flag: 'ðŸ‡¹ðŸ‡·' },
-  { name: 'Sydney', country: 'Australia', type: 'city', flag: 'ðŸ‡¦ðŸ‡º' },
-  { name: 'Melbourne', country: 'Australia', type: 'city', flag: 'ðŸ‡¦ðŸ‡º' },
-  { name: 'Brisbane', country: 'Australia', type: 'city', flag: 'ðŸ‡¦ðŸ‡º' },
-  { name: 'Perth', country: 'Australia', type: 'city', flag: 'ðŸ‡¦ðŸ‡º' },
-  { name: 'Adelaide', country: 'Australia', type: 'city', flag: 'ðŸ‡¦ðŸ‡º' },
-  { name: 'Gold Coast', country: 'Australia', type: 'city', flag: 'ðŸ‡¦ðŸ‡º' },
-  { name: 'Cairns', country: 'Australia', type: 'city', flag: 'ðŸ‡¦ðŸ‡º' },
-  { name: 'Auckland', country: 'New Zealand', type: 'city', flag: 'ðŸ‡³ðŸ‡¿' },
-  { name: 'Christchurch', country: 'New Zealand', type: 'city', flag: 'ðŸ‡³ðŸ‡¿' },
-  { name: 'Queenstown', country: 'New Zealand', type: 'city', flag: 'ðŸ‡³ðŸ‡¿' },
-  { name: 'New York', country: 'USA', type: 'city', flag: 'ðŸ‡ºðŸ‡¸' },
-  { name: 'Los Angeles', country: 'USA', type: 'city', flag: 'ðŸ‡ºðŸ‡¸' },
-  { name: 'San Francisco', country: 'USA', type: 'city', flag: 'ðŸ‡ºðŸ‡¸' },
-  { name: 'Miami', country: 'USA', type: 'city', flag: 'ðŸ‡ºðŸ‡¸' },
-  { name: 'Las Vegas', country: 'USA', type: 'city', flag: 'ðŸ‡ºðŸ‡¸' },
-  { name: 'Chicago', country: 'USA', type: 'city', flag: 'ðŸ‡ºðŸ‡¸' },
-  { name: 'Orlando', country: 'USA', type: 'city', flag: 'ðŸ‡ºðŸ‡¸' },
-  { name: 'Honolulu', country: 'USA', type: 'city', flag: 'ðŸ‡ºðŸ‡¸' },
-  { name: 'London', country: 'UK', type: 'city', flag: 'ðŸ‡¬ðŸ‡§' },
-  { name: 'Manchester', country: 'UK', type: 'city', flag: 'ðŸ‡¬ðŸ‡§' },
-  { name: 'Edinburgh', country: 'UK', type: 'city', flag: 'ðŸ‡¬ðŸ‡§' },
-  { name: 'Dublin', country: 'Ireland', type: 'city', flag: 'ðŸ‡®ðŸ‡ª' },
-  { name: 'Paris', country: 'France', type: 'city', flag: 'ðŸ‡«ðŸ‡·' },
-  { name: 'Nice', country: 'France', type: 'city', flag: 'ðŸ‡«ðŸ‡·' },
-  { name: 'Munich', country: 'Germany', type: 'city', flag: 'ðŸ‡©ðŸ‡ª' },
-  { name: 'Berlin', country: 'Germany', type: 'city', flag: 'ðŸ‡©ðŸ‡ª' },
-  { name: 'Frankfurt', country: 'Germany', type: 'city', flag: 'ðŸ‡©ðŸ‡ª' },
-  { name: 'Rome', country: 'Italy', type: 'city', flag: 'ðŸ‡®ðŸ‡¹' },
-  { name: 'Milan', country: 'Italy', type: 'city', flag: 'ðŸ‡®ðŸ‡¹' },
-  { name: 'Venice', country: 'Italy', type: 'city', flag: 'ðŸ‡®ðŸ‡¹' },
-  { name: 'Barcelona', country: 'Spain', type: 'city', flag: 'ðŸ‡ªðŸ‡¸' },
-  { name: 'Madrid', country: 'Spain', type: 'city', flag: 'ðŸ‡ªðŸ‡¸' },
-  { name: 'Amsterdam', country: 'Netherlands', type: 'city', flag: 'ðŸ‡³ðŸ‡±' },
-  { name: 'Zurich', country: 'Switzerland', type: 'city', flag: 'ðŸ‡¨ðŸ‡­' },
-  { name: 'Vienna', country: 'Austria', type: 'city', flag: 'ðŸ‡¦ðŸ‡¹' },
-  { name: 'Lisbon', country: 'Portugal', type: 'city', flag: 'ðŸ‡µðŸ‡¹' },
-  { name: 'Athens', country: 'Greece', type: 'city', flag: 'ðŸ‡¬ðŸ‡·' },
-  { name: 'Prague', country: 'Czech Republic', type: 'city', flag: 'ðŸ‡¨ðŸ‡¿' },
-  { name: 'Copenhagen', country: 'Denmark', type: 'city', flag: 'ðŸ‡©ðŸ‡°' },
-  { name: 'Stockholm', country: 'Sweden', type: 'city', flag: 'ðŸ‡¸ðŸ‡ª' },
-  { name: 'Oslo', country: 'Norway', type: 'city', flag: 'ðŸ‡³ðŸ‡´' },
-  { name: 'Tokyo', country: 'Japan', type: 'city', flag: 'ðŸ‡¯ðŸ‡µ' },
-  { name: 'Osaka', country: 'Japan', type: 'city', flag: 'ðŸ‡¯ðŸ‡µ' },
-  { name: 'Seoul', country: 'South Korea', type: 'city', flag: 'ðŸ‡°ðŸ‡·' },
-  { name: 'Beijing', country: 'China', type: 'city', flag: 'ðŸ‡¨ðŸ‡³' },
-  { name: 'Shanghai', country: 'China', type: 'city', flag: 'ðŸ‡¨ðŸ‡³' },
-  { name: 'Hong Kong', country: 'China', type: 'city', flag: 'ðŸ‡­ðŸ‡°' },
-  { name: 'Singapore', country: 'Singapore', type: 'city', flag: 'ðŸ‡¸ðŸ‡¬' },
-  { name: 'Bangkok', country: 'Thailand', type: 'city', flag: 'ðŸ‡¹ðŸ‡­' },
-  { name: 'Phuket', country: 'Thailand', type: 'city', flag: 'ðŸ‡¹ðŸ‡­' },
-  { name: 'Kuala Lumpur', country: 'Malaysia', type: 'city', flag: 'ðŸ‡²ðŸ‡¾' },
-  { name: 'Bali', country: 'Indonesia', type: 'city', flag: 'ðŸ‡®ðŸ‡©' },
-  { name: 'Jakarta', country: 'Indonesia', type: 'city', flag: 'ðŸ‡®ðŸ‡©' },
-  { name: 'Manila', country: 'Philippines', type: 'city', flag: 'ðŸ‡µðŸ‡­' },
-  { name: 'Ho Chi Minh City', country: 'Vietnam', type: 'city', flag: 'ðŸ‡»ðŸ‡³' },
-  { name: 'Hanoi', country: 'Vietnam', type: 'city', flag: 'ðŸ‡»ðŸ‡³' },
-  { name: 'Toronto', country: 'Canada', type: 'city', flag: 'ðŸ‡¨ðŸ‡¦' },
-  { name: 'Vancouver', country: 'Canada', type: 'city', flag: 'ðŸ‡¨ðŸ‡¦' },
-  { name: 'Montreal', country: 'Canada', type: 'city', flag: 'ðŸ‡¨ðŸ‡¦' },
-  { name: 'Mexico City', country: 'Mexico', type: 'city', flag: 'ðŸ‡²ðŸ‡½' },
-  { name: 'Cancun', country: 'Mexico', type: 'city', flag: 'ðŸ‡²ðŸ‡½' },
-  { name: 'Sao Paulo', country: 'Brazil', type: 'city', flag: 'ðŸ‡§ðŸ‡·' },
-  { name: 'Rio de Janeiro', country: 'Brazil', type: 'city', flag: 'ðŸ‡§ðŸ‡·' },
-  { name: 'Buenos Aires', country: 'Argentina', type: 'city', flag: 'ðŸ‡¦ðŸ‡·' },
-  { name: 'Santiago', country: 'Chile', type: 'city', flag: 'ðŸ‡¨ðŸ‡±' },
-  { name: 'Lima', country: 'Peru', type: 'city', flag: 'ðŸ‡µðŸ‡ª' },
-]
 
 // ============================================================
 // PRICE TIER COLOR SYSTEM
@@ -161,6 +50,70 @@ async function parseSSE(response) {
 // Format number with thousands separator
 const fmtNum = (n) => n?.toLocaleString('en-AU', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) || '0.00'
 
+
+// ============================================================
+// REEFAPI CAR SEARCH (Real Global Inventory)
+// ============================================================
+async function searchCarsReefAPI(form, apiKey) {
+  // Step 1: Autocomplete to get place_id, city_id, country_id
+  const autoRes = await fetch('/api/reef/car-rental/v1/cars/autocomplete', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'x-api-key': apiKey },
+    body: JSON.stringify({ query: form.location }),
+  });
+  if (!autoRes.ok) throw new Error('ReefAPI autocomplete HTTP ' + autoRes.status);
+  const autoData = await autoRes.json();
+  
+  // ReefAPI wraps the response in a 'data' object. Handle both common shapes.
+  const places = autoData.data?.results || autoData.data || autoData.results || autoData;
+  const place = Array.isArray(places) ? places[0] : places;
+
+  if (!place || !place.place_id) {
+    throw new Error('Location not found by ReefAPI');
+  }
+
+  // Step 2: Search cars using the resolved IDs
+  const searchRes = await fetch('/api/reef/car-rental/v1/cars/search', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'x-api-key': apiKey },
+    body: JSON.stringify({
+      place_id: place.place_id,
+      city_id: place.city_id,
+      country_id: place.country_id,
+      pickup_date: form.pickupDate,
+      dropoff_date: form.dropoffDate,
+      pickup_time: form.pickupTime,
+      dropoff_time: form.dropoffTime,
+      driver_age: parseInt(form.age),
+      currency: form.currency,
+    }),
+  });
+  if (!searchRes.ok) throw new Error('ReefAPI search HTTP ' + searchRes.status);
+  const searchData = await searchRes.json();
+  
+  const offers = searchData.data?.offers || searchData.offers || [];
+  return offers.map(o => ({
+    name: o.vehicle?.name || 'Rental car',
+    vendor: o.supplier?.name || 'Unknown',
+    price: o.price?.amount || 0,
+    currency: o.price?.currency || form.currency,
+    category: o.vehicle?.category || 'Vehicle',
+    transmission: o.vehicle?.transmission || 'Automatic',
+    passengers: o.vehicle?.seats || 5,
+    bags: o.vehicle?.bags || 2,
+    air_con: o.vehicle?.air_conditioning !== false,
+    fuel_policy: o.vehicle?.fuel_type || 'Full-Full',
+    mileage: o.mileage || 'Limited',
+    image_url: o.vehicle?.image || '',
+    booking_url: o.book_url || '#',
+    free_cancellation: o.free_cancellation || false,
+    sipp: o.vehicle?.acriss || 'CAR',
+    rental_days: o.price?.rental_days || 1,
+    price_per_day: o.price?.daily || null,
+  }));
+}
+
+
 export default function CarBooking() {
   const [cars, setCars] = useState([])
   const [loading, setLoading] = useState(false)
@@ -180,11 +133,11 @@ export default function CarBooking() {
   const nextWeek = new Date(today); nextWeek.setDate(nextWeek.getDate() + 7)
 
   const [form, setForm] = useState({
-    location: 'Sydney',
+    location: '',
     pickupDate: tomorrow.toISOString().split('T')[0],
     dropoffDate: nextWeek.toISOString().split('T')[0],
     pickupTime: '10:00', dropoffTime: '10:00',
-    age: 30, currency: 'AUD',
+    age: 30, currency: 'USD',
   })
 
   const updateForm = (key, value) => setForm(prev => ({ ...prev, [key]: value }))
@@ -201,9 +154,7 @@ export default function CarBooking() {
     if (curMap[userLocation.country_code]) updateForm('currency', curMap[userLocation.country_code])
   }, [userLocation?.country_code])
 
-  const filteredLocations = locationQuery.length > 0
-    ? WORLD_LOCATIONS.filter(l => l.name.toLowerCase().includes(locationQuery.toLowerCase()) || l.country.toLowerCase().includes(locationQuery.toLowerCase())).slice(0, 10)
-    : WORLD_LOCATIONS.slice(0, 10)
+  const filteredLocations = searchLocations(locationQuery, 10);
 
   useEffect(() => {
     const handleClick = (e) => { if (suggestionsRef.current && !suggestionsRef.current.contains(e.target)) setShowSuggestions(false) }
@@ -212,39 +163,96 @@ export default function CarBooking() {
   }, [])
 
   const selectLocation = (loc) => {
-    updateForm('location', loc.name); setLocationQuery(loc.name); setShowSuggestions(false)
+    const locString = loc.city + ', ' + loc.country;
+    const curMap = {
+    'US':'USD','GB':'GBP','EU':'EUR','AU':'AUD','CA':'CAD','JP':'JPY','CN':'CNY','IN':'INR',
+    'PK':'PKR','BD':'BDT','AE':'AED','SA':'SAR','QA':'QAR','KW':'KWD','BH':'BHD','OM':'OMR',
+    'ZA':'ZAR','NG':'NGN','KE':'KES','EG':'EGP','MA':'MAD','SG':'SGD','MY':'MYR','TH':'THB',
+    'ID':'IDR','PH':'PHP','VN':'VND','TR':'TRY','RU':'RUB','BR':'BRL','MX':'MXN','AR':'ARS',
+    'CL':'CLP','CO':'COP','PE':'PEN','NZ':'NZD','CH':'CHF','SE':'SEK','NO':'NOK','DK':'DKK',
+    'PL':'PLN','CZ':'CZK','HU':'HUF','IL':'ILS','LK':'LKR','NP':'NPR'
+  };
+    const newCurrency = curMap[loc.countryCode] || 'USD';
+
+    setForm(prev => ({ ...prev, location: locString, currency: newCurrency }));
+    setLocationQuery(loc.city + ' (' + loc.id + ')');
+    setShowSuggestions(false);
   }
 
   const searchCars = async () => {
-    if (!form.location) return setError('Please enter a pickup location')
-    if (!form.pickupDate || !form.dropoffDate) return setError('Please select pickup and dropoff dates')
-    if (new Date(form.dropoffDate) <= new Date(form.pickupDate)) return setError('Dropoff date must be after pickup date')
-    setLoading(true); setError(''); setCars([]); setPriceFilter('all')
+    if (!form.location) return setError('Please enter a pickup location');
+    if (!form.pickupDate || !form.dropoffDate) return setError('Please select pickup and dropoff dates');
+    if (new Date(form.dropoffDate) <= new Date(form.pickupDate)) return setError('Dropoff date must be after pickup date');
+
+    setLoading(true);
+    setError('');
+    setCars([]);
+    setPriceFilter('all');
+
+    const cleanLocation = form.location.split(',')[0].trim(); // Send "Dubai", not "Dubai, UAE"
+    let apiSuccess = false;
+
+    // ---- 1. REEFAPI (Primary - Real Global Inventory) ----
     try {
-      const response = await fetch('/api/octotrip', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json, text/event-stream' },
-        body: JSON.stringify({
-          jsonrpc: '2.0', id: Date.now(), method: 'tools/call',
-          params: { name: 'search', arguments: {
-            location: form.location, pickup_date: form.pickupDate, dropoff_date: form.dropoffDate,
-            pickup_time: form.pickupTime, dropoff_time: form.dropoffTime,
-            age: parseInt(form.age), currency: form.currency, language: 'en',
-          }},
-        }),
-      })
-      if (!response.ok) throw new Error('Server returned ' + response.status)
-      const data = await parseSSE(response)
-      if (data.error) throw new Error(data.error.message || 'Search failed')
-      let payload = data
-      if (data?.result?.content?.[0]?.text) { try { payload = JSON.parse(data.result.content[0].text) } catch { payload = data.result } }
-      const results = payload.results || payload.cars || []
-      if (results.length === 0) setError('No cars available at "' + form.location + '" for those dates.')
-      else setCars(results)
-    } catch (err) {
-      setError(err.message || 'Search failed. Please try again.')
-    } finally { setLoading(false) }
-  }
+      const REEF_KEY = 'ak_live_I_VJiCt2Rc96nZle4h10DAYIRr_3Qu_r';
+      const reefResults = await searchCarsReefAPI({ ...form, location: cleanLocation }, REEF_KEY);
+      if (reefResults.length > 0) {
+        setCars(reefResults);
+        setLoading(false);
+        apiSuccess = true;
+      }
+    } catch (e) {
+      console.warn('ReefAPI failed:', e.message);
+    }
+
+    // ---- 2. OctoTrip (Fallback) ----
+    if (!apiSuccess) {
+      try {
+        const res = await fetch('/api/octotrip', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json, text/event-stream' },
+          body: JSON.stringify({
+            jsonrpc: '2.0', id: Date.now(), method: 'tools/call',
+            params: { name: 'search', arguments: {
+              location: cleanLocation, pickup_date: form.pickupDate, dropoff_date: form.dropoffDate,
+              pickup_time: form.pickupTime, dropoff_time: form.dropoffTime,
+              age: parseInt(form.age), currency: form.currency, language: 'en',
+            }},
+          }),
+        });
+        if (res.ok) {
+          const data = await parseSSE(res);
+          if (data?.result?.content?.[0]?.text) {
+            const payload = JSON.parse(data.result.content[0].text);
+            const results = payload.results || payload.cars || [];
+            if (results.length > 0) {
+              setCars(results);
+              setLoading(false);
+              apiSuccess = true;
+            }
+          }
+        }
+      } catch (e) { console.warn('OctoTrip failed:', e.message); }
+    }
+
+    // ---- 3. AgentWeb (Secondary Fallback) ----
+    if (!apiSuccess) {
+      try {
+        const agentResults = await searchCarsAgentWeb({ ...form, location: cleanLocation }, 'aw_live_3131a083e0ffe8afaf3c48685ff354c7');
+        if (agentResults.length > 0) {
+          setCars(agentResults);
+          setLoading(false);
+          apiSuccess = true;
+        }
+      } catch (e) { console.warn('AgentWeb failed:', e.message); }
+    }
+
+    // ---- All failed ----
+    if (!apiSuccess) {
+      setError('No vehicles found at ' + form.location + ' for those dates across all providers. Try a major hub like Dubai, London, or Istanbul.');
+    }
+    setLoading(false);
+  };
 
   const handleSaveBooking = async (car) => {
     if (!user) { alert('Please sign in to save bookings'); return }
@@ -307,7 +315,7 @@ export default function CarBooking() {
               <label className="text-sm font-semibold mb-1.5 flex items-center gap-1.5">
                 <MapPin className="h-4 w-4 text-primary" /> Pickup Location
               </label>
-              <div className="relative">
+              <div className="relative cursor-pointer" onClick={() => setShowSuggestions(true)}>
                 <Input
                   value={locationQuery || form.location}
                   onChange={(e) => { setLocationQuery(e.target.value); setShowSuggestions(true); updateForm('location', e.target.value) }}
@@ -324,10 +332,12 @@ export default function CarBooking() {
                       <span className="text-xl">{loc.flag}</span>
                       <div className="flex-1 min-w-0">
                         <div className="font-medium text-sm flex items-center gap-1.5">
-                          {loc.type === 'airport' ? <Plane className="h-3 w-3 text-primary" /> : <Building2 className="h-3 w-3 text-muted-foreground" />}
-                          {loc.name}
+                          {loc.type === 'airport' ? <Plane className="h-3 w-3 text-sky-500" /> : <Building2 className="h-3 w-3 text-emerald-500" />}
+                          {loc.city} {loc.type === 'airport' ? '(' + loc.id + ')' : ''}
                         </div>
-                        <div className="text-xs text-muted-foreground">{loc.country}</div>
+                        <div className="text-xs text-muted-foreground truncate">
+                          {loc.type === 'airport' ? loc.name : 'All locations'} · {loc.country}
+                        </div>
                       </div>
                     </button>
                   ))}
@@ -357,10 +367,18 @@ export default function CarBooking() {
             <div>
               <label className="text-sm font-semibold mb-1.5">Currency</label>
               <select value={form.currency} onChange={(e) => updateForm('currency', e.target.value)} className="w-full h-11 px-3 border border-border rounded-lg bg-background text-foreground">
-                <option value="AUD">AUD $</option><option value="USD">USD $</option><option value="EUR">EUR €</option>
-                <option value="GBP">GBP £</option><option value="NZD">NZD $</option><option value="JPY">JPY ¥</option>
-                <option value="SGD">SGD $</option><option value="AED">AED Ø¯.Ø¥</option><option value="INR">INR ₹</option>
-                <option value="PKR">PKR â‚¨</option><option value="ZAR">ZAR R</option><option value="CAD">CAD $</option>
+                <option value="USD">USD $</option>
+                <option value="EUR">EUR €</option>
+                <option value="GBP">GBP £</option>
+                <option value="AUD">AUD $</option>
+                <option value="CAD">CAD $</option>
+                <option value="NZD">NZD $</option>
+                <option value="AED">AED د.إ</option>
+                <option value="PKR">PKR ₨</option>
+                <option value="INR">INR ₹</option>
+                <option value="JPY">JPY ¥</option>
+                <option value="SGD">SGD $</option>
+                <option value="ZAR">ZAR R</option>
               </select>
             </div>
           </div>
@@ -378,10 +396,27 @@ export default function CarBooking() {
           </div>
 
           {error && (
-            <div className="mt-4 bg-red-50 dark:bg-red-950/30 text-red-600 dark:text-red-400 p-3 rounded-lg flex items-center gap-2 text-sm border border-red-200 dark:border-red-900">
-              <AlertCircle className="h-4 w-4 shrink-0" /> {error}
+        <div className="mt-6 rounded-2xl border border-amber-200 bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-950/30 dark:to-orange-950/20 p-5 shadow-lg">
+          <div className="flex items-start gap-4">
+            <div className="flex-shrink-0 rounded-full bg-amber-100 dark:bg-amber-900/50 p-2">
+              <AlertCircle className="h-6 w-6 text-amber-600 dark:text-amber-400" />
             </div>
-          )}
+            <div className="flex-1">
+              <h3 className="text-base font-bold text-amber-900 dark:text-amber-200">
+                No vehicles found at {form.location}
+              </h3>
+              <p className="mt-1 text-sm text-amber-800/80 dark:text-amber-300/80">
+                We checked all partner providers — none have inventory here for your dates.
+              </p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                <button onClick={() => { setError(''); setForm(prev => ({ ...prev, location: 'Dubai', currency: 'AED' })); }} className="rounded-full bg-amber-600 px-4 py-2 text-xs font-semibold text-white hover:bg-amber-700 transition">Try Dubai</button>
+                <button onClick={() => { setError(''); setForm(prev => ({ ...prev, location: 'London', currency: 'GBP' })); }} className="rounded-full bg-amber-600 px-4 py-2 text-xs font-semibold text-white hover:bg-amber-700 transition">Try London</button>
+                <button onClick={() => setError('')} className="rounded-full border border-amber-300 px-4 py-2 text-xs font-semibold text-amber-700 hover:bg-amber-100 transition">Dismiss</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
         </CardContent>
       </Card>
 
@@ -511,7 +546,7 @@ export default function CarBooking() {
                     </span>
                     {car.mileage === 'Unlimited' && (
                       <span className="flex items-center gap-1 bg-emerald-50 dark:bg-emerald-950/30 text-emerald-600 dark:text-emerald-400 text-[11px] font-medium px-2 py-1 rounded-md">
-                        â™¾ï¸ Unlimited km
+                        ♾️ Unlimited km
                       </span>
                     )}
                   </div>

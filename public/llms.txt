@@ -1,0 +1,40 @@
+# TimeGovern
+> Fast answers for money, time & code.
+
+TimeGovern is a free tool hub for flights, car rentals, time zones, calculators, weather, and world data.
+
+## Core Tools
+- /flights — live flight search powered by Google Flights
+- /flights/{ORIGIN}/{DESTINATION} — programmatic route pages (e.g. /flights/lhr/jfk)
+- /cars — worldwide car rental comparison via ReefAPI
+- /world-clock — live times for 15,000+ cities
+- /time-zone-converter — convert times across zones
+- /weather — live weather for 490+ cities
+- /salary/{iso2} — country salary & tax calculators
+
+## Top Flight Routes (examples)
+- /flights/lhr/jfk — London → New York
+- /flights/lhr/dxb — London → Dubai
+- /flights/lhe/dxb — Lahore → Dubai
+- /flights/lhr/lax — London → Los Angeles
+- /flights/jfk/lax — New York → Los Angeles
+- /flights/sin/syd — Singapore → Sydney
+- /flights/dxb/bom — Dubai → Mumbai
+- /flights/lhr/bom — London → Mumbai
+- /flights/fra/jfk — Frankfurt → New York
+- /flights/cdg/lhr — Paris → London
+
+## Data Sources
+- Flights: Google Flights (fast-flights), OctoTrip Flights, AgentWeb
+- Cars: ReefAPI, OctoTrip Rental Cars, AgentWeb
+- Weather: Open-Meteo
+- Airports & cities: mwgg/Airports + global city dataset
+
+## Editorial Standards
+- All flight prices shown are live and include taxes.
+- Booking links redirect to the original provider (Google Flights or partner).
+- We do not sell user data.
+
+## Contact
+- Website: https://timegovern.com
+- Support: /support

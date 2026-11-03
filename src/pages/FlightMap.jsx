@@ -27,34 +27,47 @@ export default function FlightMap() {
   const [mapZoom, setMapZoom] = useState(6);
 
   useEffect(() => {
-    setPageMeta();
-    const fetchPlanes = async () => {
+    const fetchLiveFlights = async () => {
       try {
-        setLoading(true);
-        setError(null);
-        // Using adsb.lol - a free, CORS-friendly API (Fetches planes within 250nm of London)
-        const res = await fetch('https://api.adsb.lol/v2/point/51.5074/-0.1278/250');
-        
-        if (!res.ok) throw new Error(`API error: ${res.status}`);
-        
+        // ADSB.lol: free, keyless live aircraft positions.
+        // This example fetches aircraft within 250nm of a central point.
+        // You can change the lat/lon/radius to focus on a specific region.
+        const lat = 51.47; // London Heathrow approx
+        const lon = -0.45;
+        const radius = 250; // nautical miles
+
+        const res = await fetch(
+          `https://api.adsb.lol/v2/lat/${lat}/lon/${lon}/dist/${radius}`
+        );
+        if (!res.ok) throw new Error('ADSB.lol HTTP ' + res.status);
+
         const data = await res.json();
-        
-        if (data.ac && Array.isArray(data.ac)) {
-          const validPlanes = data.ac.filter(p => p.lat && p.lon);
-          setPlanes(validPlanes);
-        } else {
-          setPlanes([]);
-        }
+        const aircraft = data.ac || [];
+
+        // Map ADSB.lol aircraft objects to Leaflet marker positions
+        const flights = aircraft
+          .filter(a => a.lat != null && a.lon != null)
+          .map(a => ({
+            id: a.hex,
+            callsign: a.flight?.trim() || 'Unknown',
+            lat: a.lat,
+            lon: a.lon,
+            altitude: a.alt_baro,
+            speed: a.gs,
+          }));
+
+        setFlights(flights);
       } catch (err) {
-        console.error("Flight fetch failed:", err);
-        setError(err.message);
+        console.error('Failed to fetch live flights:', err);
+        setError('Could not load live flight data. Please try again later.');
       } finally {
         setLoading(false);
       }
     };
 
-    fetchPlanes();
-    const interval = setInterval(fetchPlanes, 15000); // Update every 15 seconds
+    fetchLiveFlights();
+    // Refresh every 10 seconds (ADSB.lol is a live feed)
+    const interval = setInterval(fetchLiveFlights, 10000);
     return () => clearInterval(interval);
   }, []);
 
@@ -110,9 +123,9 @@ export default function FlightMap() {
         
         <MapContainer center={mapCenter} zoom={mapZoom} style={{ height: '100%', width: '100%' }}>
           <TileLayer
-            url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
-            attribution='&copy; <a href="https://carto.com/">CARTO</a>'
-          />
+  url="https://tiles.openfreemap.org/styles/dark"
+  attribution='&copy; <a href="https://openfreemap.org/">OpenFreeMap</a>'
+/>
           {planes.map((plane) => (
             <Marker key={plane.hex} position={[plane.lat, plane.lon]} icon={planeIcon}>
               <Popup>

@@ -1,9 +1,16 @@
 #!/usr/bin/env node
-// scripts/prerender.mjs  (v2 — concurrent)
-// Static-renders SPA routes to real HTML files in dist/ via Playwright.
-// Idempotent, per-route timeouts, blank-page detection, N-worker concurrency.
+// scripts/prerender.mjs  (A2a — static routes + blog)
+// Static-renders SPA routes from sitemap-{blog,core,calculators,country-codes}.xml
+// to real HTML files in dist/ via Playwright.
+//
+//   node scripts/prerender.mjs --slug privacy                 # single static route
+//   node scripts/prerender.mjs --slug blog/what-is-sleep-debt # single blog route
+//   node scripts/prerender.mjs --all                          # everything in scope
+//   node scripts/prerender.mjs --all --force --workers 6      # re-render all, 6 workers
+//
+// Precondition: dist/ must be current (npm run build).
 
-import { existsSync, readFileSync, writeFileSync, unlinkSync, mkdirSync, copyFileSync } from 'node:fs'
+import { existsSync, readFileSync, writeFileSync, unlinkSync, mkdirSync } from 'node:fs'
 import { resolve, dirname } from 'node:path'
 import { spawn } from 'node:child_process'
 import { chromium } from 'playwright'
@@ -11,7 +18,6 @@ import { chromium } from 'playwright'
 const ROOT = process.cwd()
 const DIST = resolve(ROOT, 'dist')
 const INDEX_HTML = resolve(DIST, 'index.html')
-const SITEMAP_BLOG = resolve(DIST, 'sitemap-blog.xml')
 const BASE = 'https://timegovern.com'
 
 const opt = {
@@ -30,7 +36,7 @@ for (let i = 0; i < args.length; i++) {
   else { console.error(`Unknown arg: ${a}`); process.exit(2) }
 }
 if (!opt.all && !opt.slug) {
-  console.error('Usage: node scripts/prerender.mjs --slug <slug> | --all [--force] [--port N] [--workers N]')
+  console.error('Usage: node scripts/prerender.mjs --slug <path> | --all [--force] [--port N] [--workers N]')
   process.exit(2)
 }
 
@@ -41,27 +47,63 @@ if (!/id="root"/.test(shell)) { console.error('dist/index.html has no <div id="r
 const viteBin = resolve(ROOT, 'node_modules/vite/bin/vite.js')
 if (!existsSync(viteBin)) { console.error('MISSING ' + viteBin); process.exit(1) }
 
+// A2a sources — all contain static (non-parameterized) routes
+const SITEMAP_SOURCES = [
+  'sitemap-blog.xml',
+  'sitemap-core.xml',
+  'sitemap-calculators.xml',
+  'sitemap-country-codes.xml',
+]
+
+const SKIP_EXACT = new Set(['/', '/api'])
+const SKIP_PREFIXES = ['/embed', '/auth', '/reset', '/my-', '/compare-', '/settings']
+
+function shouldSkip(p) {
+  if (SKIP_EXACT.has(p)) return true
+  if (p.includes('?') || p.includes('#')) return true
+  for (const x of SKIP_PREFIXES) if (p.startsWith(x)) return true
+  return false
+}
+
+function outPathFor(routePath) {
+  const rel = routePath.replace(/^\/+/, '').replace(/\/+$/, '')
+  if (!rel) return null
+  return resolve(DIST, rel, 'index.html')
+}
+
 function loadRoutes() {
   if (opt.slug) {
     let s = opt.slug.replace(/^\/+|\/+$/g, '')
-    if (s.startsWith('blog/')) s = s.slice(5)
-    return [s]
+    if (s.startsWith('blog/') || s.includes('/')) return [{ path: '/' + s }]
+    const coreXml = resolve(DIST, 'sitemap-core.xml')
+    const calcXml = resolve(DIST, 'sitemap-calculators.xml')
+    let isTopLevel = false
+    for (const p of [coreXml, calcXml]) {
+      if (existsSync(p) && readFileSync(p, 'utf8').includes(`<loc>${BASE}/${s}</loc>`)) { isTopLevel = true; break }
+    }
+    return [{ path: isTopLevel ? '/' + s : '/blog/' + s }]
   }
-  if (!existsSync(SITEMAP_BLOG)) { console.error(`MISSING ${SITEMAP_BLOG}`); process.exit(1) }
-  const xml = readFileSync(SITEMAP_BLOG, 'utf8')
+  const seen = new Set()
   const out = []
-  for (const m of xml.matchAll(/<loc>([^<]+)<\/loc>/g)) {
-    const u = m[1].replace(BASE, '')
-    if (u === '/blog' || u === '/blog/') continue
-    if (!u.startsWith('/blog/')) continue
-    out.push(u.slice(6))
+  for (const src of SITEMAP_SOURCES) {
+    const p = resolve(DIST, src)
+    if (!existsSync(p)) { console.warn(`[skip missing] ${src}`); continue }
+    const xml = readFileSync(p, 'utf8')
+    let added = 0, skipped = 0
+    for (const m of xml.matchAll(/<loc>([^<]+)<\/loc>/g)) {
+      let u = m[1].replace(BASE, '')
+      if (!u.startsWith('/')) u = '/' + u
+      if (shouldSkip(u)) { skipped++; continue }
+      if (seen.has(u))   { skipped++; continue }
+      seen.add(u); out.push({ path: u }); added++
+    }
+    console.log(`  ${src}: +${added} (skipped ${skipped})`)
   }
   return out
 }
 
 const routes = loadRoutes()
-const outPathFor = (slug) => resolve(DIST, 'blog', slug, 'index.html')
-const todo = routes.filter(s => opt.force || !existsSync(outPathFor(s)))
+const todo = routes.filter(r => opt.force || !existsSync(outPathFor(r.path)))
 console.log(`Routes: ${routes.length}   To render: ${todo.length}   Skipping (exists): ${routes.length - todo.length}   Workers: ${opt.workers}`)
 if (todo.length === 0) { console.log('RESULT: nothing to do.'); process.exit(0) }
 
@@ -113,25 +155,26 @@ async function waitForPreview(timeoutMs = 20000) {
     const failures = []
     const startedAt = Date.now()
 
-    function line(wid, tag, slug, extra) {
-      const n = String(done + 1).padStart(3)
-      console.log(`[w${wid} ${n}/${total}] ${slug.padEnd(48)} ${tag} ${extra}`)
+    function line(wid, tag, path, extra) {
+      const n = String(done + 1).padStart(4)
+      console.log(`[w${wid} ${n}/${total}] ${path.padEnd(52)} ${tag} ${extra}`)
     }
 
     async function worker(ctx, wid) {
       while (true) {
-        const slug = queue.shift()
-        if (!slug) return
-        const outFile = outPathFor(slug)
+        const item = queue.shift()
+        if (!item) return
+        const routePath = item.path
+        const outFile = outPathFor(routePath)
 
-        if (!opt.force && existsSync(outFile)) { done++; skip++; line(wid, 'SKIP', slug, ''); continue }
+        if (!opt.force && existsSync(outFile)) { done++; skip++; line(wid, 'SKIP', routePath, ''); continue }
         if (opt.force && existsSync(outFile)) { try { unlinkSync(outFile) } catch {} }
 
         const page = await ctx.newPage()
         const t0 = Date.now()
         let html = null, bodyText = '', h1Count = 0, err = null
         try {
-          await page.goto(`http://localhost:${opt.port}/blog/${slug}`, { waitUntil: 'domcontentloaded', timeout: opt.navTimeoutMs })
+          await page.goto(`http://localhost:${opt.port}${routePath}`, { waitUntil: 'domcontentloaded', timeout: opt.navTimeoutMs })
           try { await page.waitForSelector('h1', { timeout: opt.h1TimeoutMs }) } catch {}
           await page.waitForTimeout(opt.settleMs)
           bodyText = await page.evaluate(() => document.body.innerText || '')
@@ -146,13 +189,13 @@ async function waitForPreview(timeoutMs = 20000) {
         const dur = Date.now() - t0
         const chars = bodyText.length
 
-        if (err)                         { line(wid, 'FAIL', slug, `${dur}ms — ${err.split('\n')[0].slice(0,70)}`); failures.push({slug, reason: err}); fail++; continue }
-        if (chars < opt.minBodyChars)    { line(wid, 'FAIL', slug, `${dur}ms blank ${chars}c`); failures.push({slug, reason: `blank ${chars}`}); fail++; continue }
-        if (!html || html.length < 2000) { line(wid, 'FAIL', slug, `${dur}ms short ${html?.length||0}B`); failures.push({slug, reason: 'short'}); fail++; continue }
+        if (err)                         { line(wid, 'FAIL', routePath, `${dur}ms — ${err.split('\n')[0].slice(0,70)}`); failures.push({path: routePath, reason: err}); fail++; continue }
+        if (chars < opt.minBodyChars)    { line(wid, 'FAIL', routePath, `${dur}ms blank ${chars}c`);                       failures.push({path: routePath, reason: `blank ${chars}`}); fail++; continue }
+        if (!html || html.length < 2000) { line(wid, 'FAIL', routePath, `${dur}ms short ${html?.length||0}B`);             failures.push({path: routePath, reason: 'short'}); fail++; continue }
 
         mkdirSync(dirname(outFile), { recursive: true })
         writeFileSync(outFile, html, 'utf8')
-        line(wid, 'OK  ', slug, `${dur}ms ${chars}c ${html.length}B h1=${h1Count}${h1Count===0?' [WARN]':''}`)
+        line(wid, 'OK  ', routePath, `${dur}ms ${chars}c ${html.length}B h1=${h1Count}${h1Count===0?' [WARN]':''}`)
         ok++
       }
     }
@@ -166,7 +209,7 @@ async function waitForPreview(timeoutMs = 20000) {
     console.log(`\nRESULT: ok=${ok} skip=${skip} fail=${fail} total=${total}  elapsed=${elapsed}s`)
     if (failures.length) {
       console.log('Failures:')
-      for (const f of failures) console.log(`  - ${f.slug}: ${f.reason}`)
+      for (const f of failures) console.log(`  - ${f.path}: ${f.reason}`)
     }
     await browser.close(); browser = null
     killPreview()

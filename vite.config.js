@@ -22,6 +22,30 @@ export default defineConfig({
   },
   server: {
     proxy: {
+      '/api/octotrip-flights': {
+        target: 'https://mcp.octotrip.app',
+        changeOrigin: true,
+        secure: true,
+        rewrite: (path) => path.replace(/^\/api\/octotrip-flights/, '/flights/mcp'),
+      },
+      '/api/octotrip-cars': {
+        target: 'https://mcp.octotrip.app',
+        changeOrigin: true,
+        secure: true,
+        rewrite: (path) => path.replace(/^\/api\/octotrip-cars/, '/rental-cars/mcp'),
+      },
+      '/api/reef': {
+        target: 'https://api.reefapi.com',
+        changeOrigin: true,
+        secure: true,
+        rewrite: (path) => path.replace(/^\/api\/reef/, ''),
+      },
+      '/api/agentweb': {
+        target: 'https://mcp.agentweb.us',
+        changeOrigin: true,
+        secure: true,
+        rewrite: (path) => path.replace(/^\/api\/agentweb/, '/mcp'),
+      },
       '/api/adsb': {
         target: 'https://api.adsb.lol',
         changeOrigin: true,

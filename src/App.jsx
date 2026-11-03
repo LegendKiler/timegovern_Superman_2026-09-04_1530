@@ -183,6 +183,7 @@ const PremiumPage = lazy(() => import('./pages/PremiumPage'))
 const PricingPage = lazy(() => import('./pages/PricingPage'))
 const FlightMap = lazy(() => import('./pages/FlightMap'))
 const FlightsPage = lazy(() => import('./pages/FlightsPage'))
+const FlightRoutePage = lazy(() => import('./pages/FlightRoutePage'))
 const TimersPage = lazy(() => import('./pages/TimersPage'))
 const LiveDataPage = lazy(() => import('./pages/LiveDataPage'))
 const WidgetsPage = lazy(() => import('./pages/WidgetsPage'))
@@ -778,6 +779,7 @@ function AppRoutes() {
         <Route path="/pricing" element={<PricingPage />} />
         <Route path="/flight-map" element={<FlightMap />} />
         <Route path="/flights" element={<FlightsPage />} />
+        <Route path="/flights/:origin/:destination" element={<FlightRoutePage />} />
         <Route path="/timers" element={<TimersPage />} />
         <Route path="/live-data" element={<LiveDataPage />} />
         <Route path="/widgets" element={<WidgetsPage />} />

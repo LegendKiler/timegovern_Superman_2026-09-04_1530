@@ -1,33 +1,39 @@
-# TimeGovern robots.txt
-# https://timegovern.com
-
+# ─── Standard crawlers ───
 User-agent: *
 Allow: /
+Disallow: /search
+Disallow: /booking/
+Disallow: /api/
+Disallow: /_backups/
 
-# Block private/account pages
-Disallow: /auth
-Disallow: /reset-password
-Disallow: /my-calculations
-Disallow: /my-bookings
-Disallow: /my-widgets
-Disallow: /settings
-Disallow: /compare-calculations
-
-# Block API endpoints
+# ─── AI crawlers (allowed for AI Overviews / citations) ───
+User-agent: GPTBot
+Allow: /
+Disallow: /search
+Disallow: /booking/
 Disallow: /api/
 
-# Sitemap
-# AI crawlers - allow for AI search visibility (ChatGPT, Perplexity, Claude, Google AI)
-User-agent: GPTBot
+User-agent: ChatGPT-User
 Allow: /
 
 User-agent: PerplexityBot
 Allow: /
+Disallow: /search
+Disallow: /booking/
 
 User-agent: ClaudeBot
 Allow: /
+Disallow: /search
 
 User-agent: Google-Extended
 Allow: /
 
+User-agent: Applebot-Extended
+Allow: /
+
+# ─── Sitemaps ───
 Sitemap: https://timegovern.com/sitemap-index.xml
+Sitemap: https://timegovern.com/sitemap-flights.xml
+
+# ─── LLM guidance ───
+# See /llms.txt for structured AI-readable site info
