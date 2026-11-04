@@ -1,4 +1,4 @@
-const BRIDGE_URL = 'http://localhost:5000';
+const BRIDGE_URL = 'https://timegovern-flights.onrender.com';
 
 export async function searchFlights({ origin, destination, date, returnDate, adults = 1, children = 0, infants = 0, cabin = 'economy', tripType = 'one-way' }) {
   const res = await fetch(`${BRIDGE_URL}/search`, {
