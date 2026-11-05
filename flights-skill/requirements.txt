@@ -2,3 +2,4 @@ flask
 flask-cors
 fast-flights
 gunicorn
+typing_extensions
