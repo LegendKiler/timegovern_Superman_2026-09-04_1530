@@ -22,7 +22,6 @@ def _fetch_from_rapidapi(params):
         print("❌ RapidAPI Error: RAPIDAPI_KEY environment variable is missing.")
         return None
     
-    # Sky-Scrapper requires SkyIDs instead of IATA codes for many airports
     sky_map = {
         "LHR": "LOND", "LGW": "LOND",
         "JFK": "NYCA", "EWR": "NYCA", "LGA": "NYCA",
@@ -68,16 +67,24 @@ def _fetch_from_scraper(params):
             trip=params.get('trip', 'one-way'),
             passengers=Passengers(adults=params['adults'])
         )
-        # FIX: Removed fetch_mode="fallback" as it's not supported in this version
         results = get_flights(query)
         
+        # FIX: Handle the Flights object correctly
+        flights_list = results.flights if hasattr(results, 'flights') else results
+        
         formatted = []
-        for f in results:
+        for f in flights_list:
             formatted.append({
-                "name": f.airlines[0] if f.airlines else "Unknown",
-                "airlines": f.airlines,
-                "price": f.price,
-                "legs": [{"duration": l.duration, "departure_airport": l.from_airport, "arrival_airport": l.to_airport} for l in f.legs]
+                "name": f.airlines[0] if hasattr(f, 'airlines') and f.airlines else "Unknown",
+                "airlines": f.airlines if hasattr(f, 'airlines') else [],
+                "price": getattr(f, 'price', 0),
+                "legs": [
+                    {
+                        "duration": getattr(l, 'duration', 0), 
+                        "departure_airport": getattr(l, 'from_airport', ''), 
+                        "arrival_airport": getattr(l, 'to_airport', '')
+                    } for l in getattr(f, 'legs', [])
+                ]
             })
         return formatted
     except Exception as e:
