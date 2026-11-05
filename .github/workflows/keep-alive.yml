@@ -1,20 +1,13 @@
-name: Keep Supabase Alive
+name: Keep Render Alive
 on:
   schedule:
-    - cron: "0 9 */3 * *"
+    - cron: '*/14 * * * *'
   workflow_dispatch:
+
 jobs:
   ping:
     runs-on: ubuntu-latest
     steps:
-      - name: Ping Supabase
+      - name: Ping TimeGovern Flights
         run: |
-          curl -s -X POST \
-            "${{ secrets.SUPABASE_URL }}/rest/v1/keepalive" \
-            -H "apikey: ${{ secrets.SUPABASE_ANON_KEY }}" \
-            -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON_KEY }}" \
-            -H "Content-Type: application/json" \
-            -H "Prefer: return=minimal" \
-            -d "{}" \
-            -o /dev/null \
-            -w "HTTP %{http_code}\n"
+          curl -s -o /dev/null -w "HTTP %{http_code}\n" https://timegovern-flights.onrender.com/health
