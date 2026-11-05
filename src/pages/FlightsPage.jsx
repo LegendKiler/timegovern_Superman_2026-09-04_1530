@@ -24,8 +24,7 @@ const fmtDate = (iso) => {
 }
 
 
-const totalDuration = (flight) => {
-  if (!flight) return 0;
+
   if (flight.legs && Array.isArray(flight.legs) && flight.legs.length > 0) {
     return flight.legs.reduce((acc, leg) => acc + (leg.duration || 0), 0);
   }
@@ -56,6 +55,15 @@ const totalDuration = (flight) => {
     </div>
   )
 }
+
+
+const totalDuration = (flight) => {
+  if (!flight) return 0;
+  if (flight.legs && Array.isArray(flight.legs)) {
+    return flight.legs.reduce((acc, leg) => acc + (leg.duration || 0), 0);
+  }
+  return flight.duration || 0;
+};
 
 export default function FlightsPage() {
   const [searchParams] = useSearchParams()
