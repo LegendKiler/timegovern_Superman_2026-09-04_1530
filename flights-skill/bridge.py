@@ -8,9 +8,22 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 
 # Mock data for fallback
 MOCK_FLIGHTS = [
-    {"name": "British Airways", "departure": "10:00", "arrival": "13:00", "price": 450, "stops": 0},
-    {"name": "Virgin Atlantic", "departure": "14:00", "arrival": "17:00", "price": 480, "stops": 0},
-    {"name": "Delta", "departure": "18:00", "arrival": "21:00", "price": 520, "stops": 1}
+    {
+        "name": "British Airways",
+        "airlines": ["British Airways"],
+        "price": 450,
+        "legs": [
+            {"duration": 360, "departure_airport": "LHR", "arrival_airport": "JFK"}
+        ]
+    },
+    {
+        "name": "Virgin Atlantic",
+        "airlines": ["Virgin Atlantic"],
+        "price": 480,
+        "legs": [
+            {"duration": 380, "departure_airport": "LHR", "arrival_airport": "JFK"}
+        ]
+    }
 ]
 
 @app.route('/health', methods=['GET'])
