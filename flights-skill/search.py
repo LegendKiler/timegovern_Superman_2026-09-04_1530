@@ -13,23 +13,32 @@ CACHE_TTL = 3600 * 6  # 6 hours
 _cache = {}
 
 def _get_cache_key(params):
-    # Create a unique string for the search parameters
     key_str = f"{params['origin']}-{params['destination']}-{params['date']}-{params['adults']}"
     return hashlib.md5(key_str.encode()).hexdigest()
 
 # ── Layer 1: RapidAPI Sky-Scrapper ──
 def _fetch_from_rapidapi(params):
     if not RAPIDAPI_KEY:
+        print("❌ RapidAPI Error: RAPIDAPI_KEY environment variable is missing.")
         return None
     
+    # Sky-Scrapper requires SkyIDs instead of IATA codes for many airports
+    sky_map = {
+        "LHR": "LOND", "LGW": "LOND",
+        "JFK": "NYCA", "EWR": "NYCA", "LGA": "NYCA",
+        "LAX": "LAXA", "SFO": "SFOA", "DXB": "DXBA"
+    }
+    origin_id = sky_map.get(params['origin'].upper(), params['origin'].upper())
+    dest_id = sky_map.get(params['destination'].upper(), params['destination'].upper())
+
     url = "https://sky-scrapper.p.rapidapi.com/api/v1/flights/searchFlights"
     headers = {
         "X-RapidAPI-Key": RAPIDAPI_KEY,
         "X-RapidAPI-Host": RAPIDAPI_HOST
     }
     querystring = {
-        "originSkyId": params['origin'],
-        "destinationSkyId": params['destination'],
+        "originSkyId": origin_id,
+        "destinationSkyId": dest_id,
         "date": params['date'],
         "adults": str(params['adults']),
         "cabinClass": params.get('cabin', 'economy'),
@@ -37,14 +46,17 @@ def _fetch_from_rapidapi(params):
     }
     
     try:
-        response = requests.get(url, headers=headers, params=querystring, timeout=10)
+        response = requests.get(url, headers=headers, params=querystring, timeout=15)
         if response.status_code == 200:
             data = response.json()
-            # Note: You may need to adjust this formatting based on the exact API response
             if data.get('status') and data.get('data', {}).get('itineraries'):
                 return data['data']['itineraries']
+            else:
+                print(f"⚠️ RapidAPI returned 200 but no itineraries. Response: {response.text[:200]}")
+        else:
+            print(f"❌ RapidAPI HTTP {response.status_code}: {response.text[:200]}")
     except Exception as e:
-        print(f"RapidAPI failed: {e}")
+        print(f"❌ RapidAPI Request failed: {e}")
     return None
 
 # ── Layer 3: fast-flights Scraper Fallback ──
@@ -56,8 +68,8 @@ def _fetch_from_scraper(params):
             trip=params.get('trip', 'one-way'),
             passengers=Passengers(adults=params['adults'])
         )
-        # Using fetch_mode="fallback" enables Playwright for harder requests
-        results = get_flights(query, fetch_mode="fallback")
+        # FIX: Removed fetch_mode="fallback" as it's not supported in this version
+        results = get_flights(query)
         
         formatted = []
         for f in results:
@@ -94,8 +106,8 @@ def search_flights(origin, destination, date, return_date=None, adults=1, childr
     results = _fetch_from_rapidapi(params)
     
     # 3. Try Fallback Scraper
-    if results is None:
-        print("⚠️ RapidAPI failed or quota exceeded. Falling back to scraper...")
+    if results is None or len(results) == 0:
+        print("⚠️ RapidAPI failed or empty. Falling back to scraper...")
         results = _fetch_from_scraper(params)
     
     # 4. Store in Cache
