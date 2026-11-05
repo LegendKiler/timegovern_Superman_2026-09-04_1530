@@ -1,58 +1,105 @@
-import json
-import sys
+import os
+import time
+import hashlib
+import requests
 from fast_flights import FlightQuery, Passengers, create_query, get_flights
 
-def search_flights(origin, destination, date, return_date=None, adults=1, children=0, infants=0, seat='economy', trip='one-way', proxy_url=None):
-    _stdout = sys.stdout
-    sys.stdout = sys.stderr
+# ── Configuration ──
+RAPIDAPI_KEY = os.environ.get("RAPIDAPI_KEY")
+RAPIDAPI_HOST = "sky-scrapper.p.rapidapi.com"
+CACHE_TTL = 3600 * 6  # 6 hours
+
+# ── Simple In-Memory Cache ──
+_cache = {}
+
+def _get_cache_key(params):
+    # Create a unique string for the search parameters
+    key_str = f"{params['origin']}-{params['destination']}-{params['date']}-{params['adults']}"
+    return hashlib.md5(key_str.encode()).hexdigest()
+
+# ── Layer 1: RapidAPI Sky-Scrapper ──
+def _fetch_from_rapidapi(params):
+    if not RAPIDAPI_KEY:
+        return None
+    
+    url = "https://sky-scrapper.p.rapidapi.com/api/v1/flights/searchFlights"
+    headers = {
+        "X-RapidAPI-Key": RAPIDAPI_KEY,
+        "X-RapidAPI-Host": RAPIDAPI_HOST
+    }
+    querystring = {
+        "originSkyId": params['origin'],
+        "destinationSkyId": params['destination'],
+        "date": params['date'],
+        "adults": str(params['adults']),
+        "cabinClass": params.get('cabin', 'economy'),
+        "currency": "USD"
+    }
+    
     try:
-        flights_args = [FlightQuery(date=date, from_airport=origin, to_airport=destination)]
-        if trip == 'round-trip' and return_date:
-            flights_args.append(FlightQuery(date=return_date, from_airport=destination, to_airport=origin))
-
-        query = create_query(
-            flights=flights_args,
-            seat=seat,
-            trip=trip,
-            passengers=Passengers(adults=adults, children=children, infants_in_seat=0, infants_on_lap=infants),
-        )
-        
-        # Pass the proxy URL directly to fast-flights (primp)
-        results = get_flights(query, proxy=proxy_url)
-    finally:
-        sys.stdout = _stdout
-
-    output = []
-    for flight in results:
-        segments = []
-        for seg in (flight.flights or []):
-            segments.append({
-                'from': {'code': seg.from_airport.code, 'name': seg.from_airport.name},
-                'to': {'code': seg.to_airport.code, 'name': seg.to_airport.name},
-                'departure': {
-                    'date': f"{seg.departure.date[0]}-{seg.departure.date[1]:02d}-{seg.departure.date[2]:02d}",
-                    'time': f"{seg.departure.time[0]:02d}:{seg.departure.time[1]:02d}",
-                },
-                'arrival': {
-                    'date': f"{seg.arrival.date[0]}-{seg.arrival.date[1]:02d}-{seg.arrival.date[2]:02d}",
-                    'time': f"{seg.arrival.time[0]:02d}:{seg.arrival.time[1]:02d}",
-                },
-                'duration_min': seg.duration,
-                'plane': seg.plane_type,
-            })
-        output.append({
-            'price': flight.price,
-            'airlines': flight.airlines,
-            'type': flight.type,
-            'segments': segments,
-            'stops': len(segments) - 1,
-        })
-    return output
-
-if __name__ == '__main__':
-    try:
-        flights = search_flights(sys.argv[1].upper(), sys.argv[2].upper(), sys.argv[3])
-        print(json.dumps({'success': True, 'count': len(flights), 'flights': flights}))
+        response = requests.get(url, headers=headers, params=querystring, timeout=10)
+        if response.status_code == 200:
+            data = response.json()
+            # Note: You may need to adjust this formatting based on the exact API response
+            if data.get('status') and data.get('data', {}).get('itineraries'):
+                return data['data']['itineraries']
     except Exception as e:
-        print(json.dumps({'success': False, 'error': str(e)}))
-        sys.exit(1)
+        print(f"RapidAPI failed: {e}")
+    return None
+
+# ── Layer 3: fast-flights Scraper Fallback ──
+def _fetch_from_scraper(params):
+    try:
+        query = create_query(
+            flights=[FlightQuery(date=params['date'], from_airport=params['origin'], to_airport=params['destination'])],
+            seat=params.get('cabin', 'economy'),
+            trip=params.get('trip', 'one-way'),
+            passengers=Passengers(adults=params['adults'])
+        )
+        # Using fetch_mode="fallback" enables Playwright for harder requests
+        results = get_flights(query, fetch_mode="fallback")
+        
+        formatted = []
+        for f in results:
+            formatted.append({
+                "name": f.airlines[0] if f.airlines else "Unknown",
+                "airlines": f.airlines,
+                "price": f.price,
+                "legs": [{"duration": l.duration, "departure_airport": l.from_airport, "arrival_airport": l.to_airport} for l in f.legs]
+            })
+        return formatted
+    except Exception as e:
+        print(f"Scraper fallback failed: {e}")
+        return []
+
+# ── Main Function (Orchestrator) ──
+def search_flights(origin, destination, date, return_date=None, adults=1, children=0, infants=0, seat='economy', trip='one-way'):
+    params = {
+        'origin': origin, 'destination': destination, 'date': date,
+        'adults': adults, 'cabin': seat, 'trip': trip
+    }
+    
+    # 1. Check Cache
+    cache_key = _get_cache_key(params)
+    if cache_key in _cache:
+        cached_data, timestamp = _cache[cache_key]
+        if time.time() - timestamp < CACHE_TTL:
+            print("✅ Cache hit")
+            return cached_data
+        else:
+            del _cache[cache_key]
+
+    # 2. Try Primary API
+    print("⏳ Cache miss. Trying RapidAPI...")
+    results = _fetch_from_rapidapi(params)
+    
+    # 3. Try Fallback Scraper
+    if results is None:
+        print("⚠️ RapidAPI failed or quota exceeded. Falling back to scraper...")
+        results = _fetch_from_scraper(params)
+    
+    # 4. Store in Cache
+    if results:
+        _cache[cache_key] = (results, time.time())
+        
+    return results
