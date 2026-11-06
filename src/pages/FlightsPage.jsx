@@ -123,6 +123,7 @@ export default function FlightsPage() {
   const [cabin, setCabin] = useState('economy')
 
   const [loading, setLoading] = useState(false)
+  const [limitMessage, setLimitMessage] = useState(null);
   const [flights, setFlights] = useState([])
   const [error, setError] = useState('')
 
