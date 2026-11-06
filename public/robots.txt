@@ -1,39 +1,23 @@
-# ─── Standard crawlers ───
-User-agent: *
-Allow: /
-Disallow: /search
-Disallow: /booking/
-Disallow: /api/
-Disallow: /_backups/
-
-# ─── AI crawlers (allowed for AI Overviews / citations) ───
+# Allow AI Agents (Crucial for 2026 visibility)
 User-agent: GPTBot
 Allow: /
-Disallow: /search
-Disallow: /booking/
-Disallow: /api/
-
-User-agent: ChatGPT-User
-Allow: /
-
-User-agent: PerplexityBot
-Allow: /
-Disallow: /search
-Disallow: /booking/
+Allow: /flights/
 
 User-agent: ClaudeBot
 Allow: /
-Disallow: /search
+Allow: /flights/
 
 User-agent: Google-Extended
 Allow: /
+Allow: /flights/
 
-User-agent: Applebot-Extended
+# Block search parameter spam to save crawl budget
+User-agent: *
+Disallow: /flights?*
+Disallow: /*?origin=
+Disallow: /*?destination=
 Allow: /
 
-# ─── Sitemaps ───
 Sitemap: https://timegovern.com/sitemap-index.xml
 Sitemap: https://timegovern.com/sitemap-flights.xml
-
-# ─── LLM guidance ───
-# See /llms.txt for structured AI-readable site info
+Sitemap: https://timegovern.com/sitemap-core.xml
