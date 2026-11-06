@@ -236,7 +236,7 @@ export default function FlightsPage() {
 
   const durationBounds = useMemo(() => {
     if (flights.length === 0) return { min: 0, max: 0 }
-    const durations = flights.map(totalDuration)
+    const durations = (flights || []).map(totalDuration)
     return { min: Math.min(...durations), max: Math.max(...durations) }
   }, [flights])
 
@@ -612,14 +612,14 @@ export default function FlightsPage() {
                   <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-3 flex-wrap">
-                        <span className="text-lg font-bold">{flight.airlines.join(' + ')}</span>
+                        <span className="text-lg font-bold">{(flight.airlines || []).join(' + ')}</span>
                         <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${
                           flight.stops === 0 ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700'
                         }`}>
                           {flight.stops === 0 ? 'Direct' : `${flight.stops} stop${flight.stops > 1 ? 's' : ''}`}
                         </span>
                       </div>
-                      {flight.segments.map((seg, i) => (
+                      {(flight.segments || []).map((seg, i) => (
                         <div key={i} className="flex items-center gap-3 text-sm mb-2">
                           <div className="w-16 font-mono font-medium text-foreground">{seg.departure.time}</div>
                           <div className="flex-1 flex items-center gap-2 text-muted-foreground min-w-0">
