@@ -1,3 +1,6 @@
+import TrustRow from '../components/TrustRow';
+import SkeletonCard from '../components/SkeletonCard';
+import AutocompleteInput from '../components/AutocompleteInput';
 import { useEffect, useState, useMemo, useRef } from 'react'
 import { useSearchParams, Link } from 'react-router-dom'
 import {
@@ -20,54 +23,7 @@ const fmtDate = (iso) => {
   return d.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' })
 }
 
-const totalDuration = (flight) => flight.segments.reduce((sum, s) => sum + (s.duration_min || 0), 0)
-
-function SkeletonCard() {
-  return (
-    <div className="rounded-2xl border border-border bg-card p-5 animate-pulse">
-      <div className="flex items-center justify-between mb-4">
-        <div className="h-5 w-40 bg-muted rounded" />
-        <div className="h-5 w-20 bg-muted rounded-full" />
-      </div>
-      <div className="h-4 w-full bg-muted rounded mb-2" />
-      <div className="h-4 w-3/4 bg-muted rounded mb-4" />
-      <div className="flex items-center justify-between pt-3 border-t border-border">
-        <div className="h-3 w-56 bg-muted rounded" />
-        <div className="h-8 w-24 bg-muted rounded" />
-      </div>
-    </div>
-  )
-}
-
-function TrustRow() {
-  return (
-    <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] text-muted-foreground">
-      <span className="flex items-center gap-1"><ShieldCheck className="h-3 w-3 text-emerald-500" /> Secure booking</span>
-      <span className="flex items-center gap-1"><Luggage className="h-3 w-3 text-sky-500" /> 1 cabin bag</span>
-      <span className="flex items-center gap-1"><RefreshCw className="h-3 w-3 text-indigo-500" /> Fare rules apply</span>
-    </div>
-  )
-}
-
-function AutocompleteInput({ label, value, query, setQuery, onSelect, placeholder, dropOpen, setDropOpen }) {
-  const ref = useRef(null)
-
-  useEffect(() => {
-    const handleClick = (e) => { if (ref.current && !ref.current.contains(e.target)) setDropOpen(false) }
-    document.addEventListener('mousedown', handleClick)
-    return () => document.removeEventListener('mousedown', handleClick)
-  }, [setDropOpen])
-
-  const results = query.length > 1 ? searchLocations(query, 10).filter(l => l.type === 'airport') : []
-
-  return (
-    <div className="relative" ref={ref}>
-      <label className="text-sm font-semibold mb-1.5 flex items-center gap-1.5">
-        <MapPin className="h-4 w-4 text-primary" /> {label}
-      </label>
-      <Input
-        value={query}
-        onChange={(e) => { setQuery(e.target.value); setDropOpen(true) }}
+setDropOpen(true) }}
         onFocus={() => setDropOpen(true)}
         placeholder={placeholder}
         className="h-11"
@@ -93,6 +49,12 @@ function AutocompleteInput({ label, value, query, setQuery, onSelect, placeholde
   )
 }
 
+
+if (flight.legs && Array.isArray(flight.legs) && flight.legs.length > 0) {
+    return flight.legs.reduce((acc, leg) => acc + (leg.duration || 0), 0);
+  }
+  return flight.duration || 0;
+};
 
 const totalDuration = (flight) => {
   if (!flight) return 0;
