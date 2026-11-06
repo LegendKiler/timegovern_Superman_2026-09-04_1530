@@ -1,6 +1,3 @@
-import TrustRow from '../components/TrustRow';
-import SkeletonCard from '../components/SkeletonCard';
-import AutocompleteInput from '../components/AutocompleteInput';
 import { useEffect, useState, useMemo, useRef } from 'react'
 import { useSearchParams, Link } from 'react-router-dom'
 import {
@@ -23,7 +20,16 @@ const fmtDate = (iso) => {
   return d.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' })
 }
 
-const totalDuration = (flight) => flight.segments.reduce((sum, s) => sum + (s.duration_min || 0), 0)
+const totalDuration = (flight) => {
+  if (!flight) return 0;
+  if (flight.legs && Array.isArray(flight.legs)) {
+    return flight.legs.reduce((acc, leg) => acc + (leg.duration || 0), 0);
+  }
+  if (flight.segments && Array.isArray(flight.segments)) {
+    return flight.segments.reduce((sum, s) => sum + (s.duration_min || 0), 0);
+  }
+  return 0;
+}
 
 function SkeletonCard() {
   return (
