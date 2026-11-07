@@ -1,0 +1,137 @@
+{
+  "text-to-binary": {
+    "intro": "Binary is the native language of every digital computer — all data in memory and on disk is ultimately a sequence of 0s and 1s. Text-to-binary conversion replaces each character with its numeric code point in a chosen encoding, then renders that code point in base-2. This tool uses UTF-8 by default, which is what the entire modern web uses: ASCII characters (A-Z, a-z, 0-9, punctuation) each take 8 bits (one byte), so 'Hi' becomes 01001000 01001001. Non-ASCII characters expand — accented letters take 16 bits, CJK characters take 24, and emoji take 32. That is why UTF-8 is called variable-width encoding. Binary output is useful for teaching how computers store text, for debugging low-level protocols where you need to see exact byte patterns, and for verifying that data has been transmitted without corruption. It is not practical for humans to read binary text at scale — hex is the standard intermediate representation for that.",
+    "howToUse": [
+      "Paste the text you want to convert into the input box.",
+      "Select Binary as the output format (or use Text mode to convert binary back to text).",
+      "Click Run Tool — each character appears as an 8-bit (or more for UTF-8) binary sequence.",
+      "Click Copy to place the binary string on your clipboard."
+    ],
+    "useCases": [
+      "Teaching how computers encode text by showing the binary behind each letter.",
+      "Verifying bit patterns in low-level network protocol debugging.",
+      "Learning UTF-8 encoding rules by observing how multi-byte characters expand.",
+      "Preparing data for puzzles, escape rooms, or educational demonstrations."
+    ]
+  },
+  "text-to-hex": {
+    "intro": "Hex encoding is the standard binary-to-text format for displaying raw bytes as human-readable strings. Each byte (8 bits) becomes exactly two hex digits (00-FF), making hex the most compact way to represent binary data in a text file while keeping the mapping unambiguous and bijective. Unlike Base64, which packs bits more efficiently but obscures byte boundaries, hex preserves the exact byte structure — if you know the byte layout of a file format, hex lets you read it directly. This is why hex is the default hex-dump format in every hex editor, memory debugger, and packet analyzer. Text-to-hex conversion encodes each character's UTF-8 bytes into two-digit hex pairs, typically space-separated for readability. It is essential for verifying hash outputs, inspecting binary file headers (magic numbers), debugging encoding issues, and constructing byte-level payloads for network protocols.",
+    "howToUse": [
+      "Paste the text you want to convert into the input box.",
+      "Select Hex as the output format.",
+      "Click Run Tool — each character's UTF-8 bytes appear as hex pairs.",
+      "Click Copy to place the hex string on your clipboard."
+    ],
+    "useCases": [
+      "Inspecting the exact byte values behind a text string when debugging encoding issues.",
+      "Verifying hash or checksum outputs at the byte level.",
+      "Building payloads for binary protocols that expect hex-encoded data.",
+      "Confirming that text you copied contains ASCII characters and not Unicode look-alikes."
+    ]
+  },
+  "hex-to-text": {
+    "intro": "The reverse of text-to-hex: converting hex-encoded strings back to readable text. Hex input can be formatted with or without spaces (48656c6c6f vs 48 65 6c 6c 6f), with or without the 0x prefix on each byte, and sometimes with newlines every 16 or 32 bytes for legacy hex dumps. This tool accepts all common formats and decodes the hex pairs back into their byte values, then interprets those bytes as UTF-8 text. That decoding step is where problems happen: if the hex represents bytes that are not valid UTF-8 (for example, the raw bytes of a PNG file or encrypted data), the text output will contain replacement characters (U+FFFD) where UTF-8 decoding fails. If you need to preserve arbitrary binary data, use Base64 instead of hex-text conversion. Hex-to-text is the right tool for recovering human-readable strings that were encoded to hex, not for decoding binary files.",
+    "howToUse": [
+      "Paste the hex string into the input box (spaces and 0x prefixes are ignored).",
+      "Click Run Tool to decode the hex bytes as UTF-8 text.",
+      "The output shows the readable text form.",
+      "Click Copy to place the result on your clipboard."
+    ],
+    "useCases": [
+      "Recovering readable strings from hex-encoded configuration values or log entries.",
+      "Decoding hex output from network captures or memory dumps to see what text was transmitted.",
+      "Inspecting hex-encoded strings in URLs, cookies, or headers.",
+      "Debugging applications that return hex-encoded error messages."
+    ]
+  },
+  "color-converter": {
+    "intro": "Colors are represented differently across design and development tools, and conversion between those formats is a daily need for anyone working across the boundary. Hex codes (#FF5733) dominate CSS and design tools, but they only support RGB and are unintuitive to adjust for brightness or hue. RGB (255, 87, 51) is the raw channel form underlying hex and is what most graphics APIs consume. HSL (hue, saturation, lightness) is much easier to reason about — 'make this 10% darker' is a single HSL lightness adjustment — which is why CSS preprocessors use it for theming. Modern CSS also supports OKLCH, which is perceptually uniform and generates better color ramps than HSL. This converter takes any of these formats and produces all the others, including the CSS variable syntax (rgb(), hsl(), oklch()) ready to paste into stylesheets.",
+    "howToUse": [
+      "Enter a color in any supported format — hex, RGB, HSL, or CSS function notation.",
+      "Click Run Tool to see the color in all other formats.",
+      "Each output is ready to paste into CSS, JavaScript, or design tool inputs.",
+      "Click Copy next to any format to copy that specific representation."
+    ],
+    "useCases": [
+      "Converting a designer's hex color into CSS hsl() syntax for theme generation.",
+      "Adjusting a color's lightness or saturation by converting between hex and HSL.",
+      "Extracting RGB channel values to feed into a graphics library or canvas API.",
+      "Generating ready-to-paste CSS variable declarations from a single color."
+    ]
+  },
+  "caesar-cipher": {
+    "intro": "The Caesar cipher is one of the oldest encryption methods in recorded history — Julius Caesar reportedly used a shift of 3 to protect military messages. The scheme is trivially simple: every letter in the plaintext is shifted a fixed number of positions in the alphabet. 'Hello' with a shift of 3 becomes 'Khoor'. Because the shift is fixed and there are only 25 possible non-zero shifts, breaking a Caesar cipher takes a computer microseconds — you just try all 25 shifts and pick the one that produces readable text. That is why it is useless for real security and why it appears in two legitimate contexts today: as the first encryption scheme taught in every cryptography course (it introduces the substitution cipher family), and as a very weak obfuscation layer in puzzle games, CTF challenges, and hide-the-spoiler tricks. This tool handles both encryption and decryption with any shift value, and preserves case and punctuation correctly.",
+    "howToUse": [
+      "Enter the text to encrypt or decrypt into the input box.",
+      "Enter the shift amount (a number from 1 to 25).",
+      "Select Encrypt to apply the shift forward, or Decrypt to reverse it.",
+      "Click Run Tool to see the result, then Copy to use it."
+    ],
+    "useCases": [
+      "Teaching cryptography fundamentals with a substitution cipher learners can break by hand.",
+      "Solving puzzle hunts and escape room challenges that use Caesar shifts.",
+      "Obfuscating spoilers in forums or chat rooms where casual readers should not see the answer.",
+      "Learning how frequency analysis breaks weak ciphers by experimenting with shifts."
+    ]
+  },
+  "rot13": {
+    "intro": "ROT13 is a special case of the Caesar cipher with a fixed shift of 13. Its defining property is that encryption and decryption are the same operation — applying ROT13 twice returns the original text unchanged, because 13 + 13 = 26 = full rotation. That self-inverse property is why ROT13 is not really used for security at all; it is used for casual obfuscation that you can undo just as easily as apply. Common use cases include hiding spoilers, puzzle answers, or movie endings in online forums (traditional Usenet and many modern forums have built-in ROT13 toggles for exactly this reason), encoding jokes so they do not spoil the punchline in chat previews, and lightly obfuscating content that is not sensitive but that you want a human to actively choose to reveal. Never use ROT13 for anything requiring actual security — the shift of 13 is public knowledge and the entire scheme is fully reversible.",
+    "howToUse": [
+      "Paste the text you want to encode or decode into the input box.",
+      "Click Run Tool — the same button does both, since ROT13 is self-inverse.",
+      "Click Copy to place the result on your clipboard.",
+      "The same operation undoes itself: run the output through again to recover the original."
+    ],
+    "useCases": [
+      "Hiding spoilers for movies, books, or games in discussion forums.",
+      "Encoding puzzle answers so they do not spoil for other solvers.",
+      "Obfuscating jokes or punchlines in chat contexts with preview snippets.",
+      "Teaching rotation ciphers and demonstrating a self-inverse encryption scheme."
+    ]
+  },
+  "text-to-morse": {
+    "intro": "Morse code is a character encoding scheme that represents each letter and digit as a sequence of short signals (dots) and long signals (dashes), separated by gaps. Invented by Samuel Morse and Alfred Vail in the 1830s for telegraphy, it was the first practical way to transmit text over long distances via electrical wires, and it remains in active use in aviation (VOR navigation beacons identify themselves with 2-3 letter Morse IDs), amateur radio, and emergency signaling. The design is deliberately variable-length: the most common English letters got the shortest codes (E is one dot, T is one dash) to minimize transmission time — an early form of data compression. International Morse Code uses a standard mapping for A-Z, 0-9, punctuation, and a handful of procedural signals (SOS, AR, SK). This tool converts to and from standard International Morse Code.",
+    "howToUse": [
+      "Paste the text you want to convert into the input box.",
+      "Select Text→Morse to encode or Morse→Text to decode.",
+      "Click Run Tool — each character appears as dots and dashes separated by spaces.",
+      "Click Copy to place the Morse string on your clipboard."
+    ],
+    "useCases": [
+      "Learning Morse code by listening to or reading encoded messages.",
+      "Decoding aviation VOR identifiers or other Morse-based navigation signals.",
+      "Preparing Morse code for ham radio practice, emergency signaling drills, or puzzles.",
+      "Translating SOS and other distress signals for education or storytelling."
+    ]
+  },
+  "http-status": {
+    "intro": "HTTP status codes are the three-digit numbers that a web server returns with every response to signal what happened to the request. They are grouped into five classes by their first digit: 1xx (informational — the request is being processed), 2xx (success — the request completed), 3xx (redirect — the resource moved, follow the Location header), 4xx (client error — you sent something wrong), and 5xx (server error — the server failed, your request was fine). Each code has a defined semantic meaning standardized by IETF RFCs — 200 OK, 404 Not Found, 500 Internal Server Error are the ones most people know, but there are around 60 defined codes in common use and another 40+ that are registered but rarely seen. Understanding what a status code means — and what the server is trying to tell you — is foundational for API development, debugging, SEO work (redirect codes affect how search engines treat moved pages), and web performance monitoring.",
+    "howToUse": [
+      "Browse the reference list grouped by class (1xx, 2xx, 3xx, 4xx, 5xx).",
+      "Each entry shows the code, its canonical name, and what it means.",
+      "Use your browser's developer tools to inspect response headers and see which codes your own site returns.",
+      "Bookmark this page for quick reference during API debugging."
+    ],
+    "useCases": [
+      "Debugging API integrations by looking up what a specific status code means.",
+      "Auditing your own site's redirect behavior (301 vs 302 vs 307 vs 308 have distinct SEO implications).",
+      "Choosing the correct status code when building a new API endpoint.",
+      "Understanding cache behavior by distinguishing 200, 304, and 404 responses."
+    ]
+  },
+  "url-parser": {
+    "intro": "A URL is a strictly defined string format (RFC 3986), but the visual structure hides a lot of complexity — a URL like https://user:pass@api.example.com:8443/v1/users?id=42&sort=desc#section contains up to six components with special rules for each. The scheme (https) identifies the protocol; the authority (user:pass@host:port) contains credentials and the host:port pair; the path (/v1/users) identifies a resource on the server; the query string (?id=42&sort=desc) is a set of key-value pairs; and the fragment (#section) is client-side-only and never sent to the server (a common source of bugs when developers expect it server-side). Each component has its own encoding rules — query values must percent-encode special characters, but path segments have a slightly different allowed character set. Parsing URLs by hand with regular expressions almost always introduces bugs; the correct approach is to use a proper parser like this one.",
+    "howToUse": [
+      "Paste a full URL into the input box.",
+      "Click Run Tool to see the URL broken into its components.",
+      "Inspect the scheme, authority, path, query parameters, and fragment.",
+      "Click Copy next to any component to extract it for use in code."
+    ],
+    "useCases": [
+      "Extracting a specific query parameter from a URL for programmatic use.",
+      "Debugging why a redirect URI does not match a pre-registered OAuth callback URL.",
+      "Confirming which part of a URL is the fragment (client-only) versus the query string (sent to server).",
+      "Understanding how the browser parses a complex URL with credentials, port numbers, and encoded characters."
+    ]
+  }
+}
