@@ -1,0 +1,137 @@
+{
+  "json-formatter": {
+    "intro": "JSON (JavaScript Object Notation) is the standard data interchange format for modern web applications — nearly every API returns it, every configuration file uses it, and every major programming language can parse it natively. But JSON has a well-known human problem: minified JSON (the format APIs typically return) is a single line of thousands of characters with no indentation, making it essentially unreadable. A JSON formatter takes that minified string and re-emits it with proper indentation (typically 2 or 4 spaces) and line breaks, so you can actually see the structure of nested objects and arrays. It also serves a second critical purpose: validation. JSON has strict syntax rules — strings must use double quotes, trailing commas are forbidden, and comments are not allowed. A single missing comma or stray character breaks the entire document, and a formatter will pinpoint exactly where the parser failed.",
+    "howToUse": [
+      "Paste your JSON string into the input box — either minified or already formatted.",
+      "Click Run Tool to validate and reformat it with proper indentation.",
+      "If your JSON is invalid, the error message will point to the exact position of the problem.",
+      "Click Copy to place the formatted result on your clipboard."
+    ],
+    "useCases": [
+      "Debugging API responses by reformatting minified JSON into a readable structure.",
+      "Validating configuration files (package.json, tsconfig.json, etc.) before committing.",
+      "Preparing JSON payloads for documentation or code review with readable indentation.",
+      "Finding a missing comma or unclosed bracket in a large nested data structure."
+    ]
+  },
+  "case-converter": {
+    "intro": "Text case conversion is a deceptively useful utility — what looks like a trivial transformation hides a set of real use cases in programming, publishing, and data cleanup. Developers need to convert between naming conventions: camelCase for JavaScript variables, snake_case for Python and database columns, kebab-case for CSS classes and URLs, PascalCase for class names and components, and CONSTANT_CASE for environment variables. Content editors and publishers need sentence case (Only the first letter of each sentence is capitalized), Title Case (Every Major Word Capitalized, per AP/Chicago style rules), and lowercase/uppercase toggling for headings and accessibility labels. This tool handles all of them in one click, with proper word-boundary detection so that camelCase and snake_case inputs both convert correctly regardless of which format you start in.",
+    "howToUse": [
+      "Paste or type the text you want to convert into the input box.",
+      "Choose the target case from the tab row — camelCase, snake_case, kebab-case, PascalCase, CONSTANT_CASE, Title Case, Sentence case, or UPPER/lower.",
+      "Click Run Tool to see the converted output.",
+      "Click Copy to place it on your clipboard."
+    ],
+    "useCases": [
+      "Converting variable names when porting code between languages with different naming conventions.",
+      "Generating CSS class names or URL slugs from human-readable labels.",
+      "Normalizing database column names from camelCase to snake_case during schema migration.",
+      "Fixing inconsistent capitalization in content before publication (title case, sentence case)."
+    ]
+  },
+  "character-counter": {
+    "intro": "Character counting matters wherever text meets a hard limit — social media posts (Twitter/X allows 280 characters, Threads 500, LinkedIn 3,000, Instagram 2,200 captions), SMS messages (160 characters per segment before splitting), meta descriptions for SEO (Google truncates around 155-160), title tags (60), and database columns. The subtlety is that 'character' means different things in different contexts: JavaScript's String.length counts UTF-16 code units, which means an emoji like 😀 counts as 2, and CJK characters sometimes count as 1 but display as 2 in fixed-width fonts. A good character counter shows the raw count, the count excluding whitespace, the word count, and often the byte count (UTF-8). This tool shows all of them at once so you know exactly how much of a limit you are using.",
+    "howToUse": [
+      "Paste or type your text into the input box.",
+      "The counters update as you type — characters (with and without spaces), words, sentences, paragraphs, and UTF-8 bytes.",
+      "Use the character count to stay under social media limits, meta description limits, or database column caps.",
+      "Use the word count for essay or article length targets."
+    ],
+    "useCases": [
+      "Checking that a tweet, post, or caption fits within the platform's character limit.",
+      "Verifying a meta description fits within Google's 155-160 character display cutoff.",
+      "Confirming a title tag stays under 60 characters so it does not truncate in search results.",
+      "Validating SMS text message length against the 160-character segment boundary."
+    ]
+  },
+  "slug-generator": {
+    "intro": "A URL slug is the human-readable, hyphenated identifier at the end of a URL — the 'what-is-a-slug' in 'example.com/blog/what-is-a-slug'. Good slugs matter for two reasons. First, SEO: Google reads the slug as a keyword signal, so 'how-to-calculate-mortgage-payments' ranks better for those terms than 'page-12345'. Second, usability: users can guess or share URLs by reading them, and slugs increase trust in shared links. Generating a slug correctly is surprisingly tricky: you need to lowercase everything, strip diacritics (é to e, ñ to n), replace whitespace and most punctuation with hyphens, collapse repeated hyphens, strip leading and trailing hyphens, and encode anything remaining. Non-Latin scripts (Chinese, Arabic, Cyrillic) either transliterate to ASCII or use percent-encoding, depending on the platform.",
+    "howToUse": [
+      "Paste your page title or article heading into the input box.",
+      "Click Run Tool to generate a URL-safe slug.",
+      "The output is lowercase, hyphen-separated, and stripped of punctuation and diacritics.",
+      "Click Copy to use the slug in your CMS, blog URL, or router."
+    ],
+    "useCases": [
+      "Generating SEO-friendly URL slugs from article titles in a blog or CMS.",
+      "Creating readable anchor links for documentation headings.",
+      "Producing filenames from descriptive titles without forbidden characters.",
+      "Normalizing existing URLs that contain spaces, uppercase letters, or special characters."
+    ]
+  },
+  "reverse-text": {
+    "intro": "Reversing text is one of those 'why would anyone need this' utilities that turns out to have genuine applications across education, debugging, and cryptography puzzles. The technical challenge is that naive reversal breaks UTF-16 surrogate pairs — the emoji 😀 is stored as two code units, and reversing character-by-character produces garbage. A correct implementation reverses by grapheme cluster so that emoji, accented letters, and combining characters remain intact. On top of that, the useful variants matter: 'reverse the whole string' (used for palindrome tests), 'reverse each word but keep word order' (used in some word games and test datasets), 'reverse word order but keep each word intact' (used for sentence-level manipulation), and 'reverse each line separately' (useful for diffing reversed log files). This tool gives you all four plus grapheme-safe handling.",
+    "howToUse": [
+      "Paste or type the text you want to reverse into the input box.",
+      "Choose the reversal mode: whole string, each word, word order, or line-by-line.",
+      "Click Run Tool to see the result.",
+      "Click Copy to place the output on your clipboard."
+    ],
+    "useCases": [
+      "Testing whether a string is a palindrome (compare original to reversed).",
+      "Fixing reversed or mirrored text pasted from apps with display bugs.",
+      "Generating word puzzles and children's educational exercises.",
+      "Debugging sort or string-slicing logic by reversing intermediate values."
+    ]
+  },
+  "text-diff": {
+    "intro": "A text diff tool compares two versions of a document and highlights exactly what changed — additions, deletions, and modifications — in the same way that Git, code review tools, and Wikipedia's edit history do. The underlying algorithm (typically Myers' diff or a variant) finds the longest common subsequence between the two texts and marks everything outside that subsequence as a change. Diff is essential for any workflow where content is edited over time: catching accidental changes when copy-editing, verifying that a translation matches the source structure, comparing configuration files between environments, or auditing what an AI tool changed in your draft. This tool shows the diff at the character, word, or line level, so you can dial in the granularity that matters for your use case.",
+    "howToUse": [
+      "Paste the original text into the first box and the modified text into the second box.",
+      "Choose the comparison mode: character, word, or line level.",
+      "Click Run Tool to see the differences highlighted — additions in green, deletions in red.",
+      "Click Copy to save the diff output for documentation or further analysis."
+    ],
+    "useCases": [
+      "Comparing two versions of a contract, policy, or article before publishing.",
+      "Auditing what an AI writing tool changed in your draft.",
+      "Verifying that configuration files differ only in the intended fields.",
+      "Learning what a translation changed from the source sentence structure."
+    ]
+  },
+  "unix-timestamp": {
+    "intro": "A Unix timestamp (also called Unix time, POSIX time, or epoch time) is the number of seconds that have elapsed since 00:00:00 UTC on January 1, 1970 — the 'Unix epoch'. It is the universal internal time format for nearly every operating system, database, and programming language, because it is just an integer that can be compared and sorted with no timezone ambiguity. When you see 1735689600 in a log file or database row, that is January 1, 2025 at midnight UTC. The subtlety that trips up developers is the units: JavaScript uses milliseconds for Date.now(), while most servers use seconds — so a timestamp in the wrong unit becomes a date in 1970 (if you forgot to multiply) or 50000+ (if you forgot to divide). This converter handles both units and shows the corresponding ISO 8601 and human-readable forms.",
+    "howToUse": [
+      "Paste a Unix timestamp (seconds or milliseconds) into the input box to convert it to a human-readable date.",
+      "Or click Run Tool to get the current time as a Unix timestamp.",
+      "The output shows the corresponding ISO 8601 format, UTC time, and your local time.",
+      "Click Copy to place the converted value on your clipboard."
+    ],
+    "useCases": [
+      "Debugging log files and database rows where dates are stored as Unix timestamps.",
+      "Converting between seconds and milliseconds to fix 'wrong year' bugs in JavaScript.",
+      "Generating future timestamps for testing scheduled jobs, token expiry, or cache TTLs.",
+      "Verifying that a system clock is set correctly by comparing current time to expected value."
+    ]
+  },
+  "number-base": {
+    "intro": "Number base conversion translates numbers between the representations used in different contexts: binary (base 2, used by every digital circuit), octal (base 8, historically used in Unix file permissions), decimal (base 10, the human default), hexadecimal (base 16, ubiquitous in programming for memory addresses, color codes, and byte representations), and occasionally bases 32 and 36 for compact encoding. In programming, understanding base conversion means understanding the difference between a value and its representation: the number 255 is the same value whether you write it as 255, 0xFF, or 0b11111111 — but the different representations have different uses. Hex is preferred for bytes because each hex digit maps to exactly 4 bits, so a byte is always two hex digits. Binary makes bit-level operations easy to visualize. This tool converts any number between bases 2 through 36, with proper digit validation.",
+    "howToUse": [
+      "Enter the number you want to convert into the input box.",
+      "Select the source base (the format your input is currently in).",
+      "Select the target base — binary, octal, decimal, hex, or any base from 2 to 36.",
+      "Click Run Tool to see the converted result."
+    ],
+    "useCases": [
+      "Converting between hex color codes (FF5733) and decimal RGB values (255, 87, 51).",
+      "Understanding Unix file permissions by converting between octal (755) and binary (111 101 101).",
+      "Debugging memory addresses and byte-level operations by reading hex representations.",
+      "Learning how number bases work by comparing the same value across formats."
+    ]
+  },
+  "roman-numeral": {
+    "intro": "Roman numerals — I, V, X, L, C, D, M — are the number system used throughout the Roman Empire and, remarkably, still used today in contexts where tradition outweighs practicality: book chapters, movie sequel titles, Super Bowl numbers, papal encyclicals, clock faces, and outlines. The system is additive and subtractive: a smaller numeral before a larger one subtracts (IV = 4, IX = 9), and after it adds (VI = 6, XI = 11). Only seven characters are needed for numbers 1 through 3,999, with subtractions limited to specific patterns (IV, IX, XL, XC, CD, CM) — a rule that many people find counterintuitive. Above 3,999, standard Roman numerals no longer have a representation (medieval variants used overlines and other markings that are not in modern usage). This converter handles both directions and validates against standard construction rules.",
+    "howToUse": [
+      "Enter a number (1-3999) or a Roman numeral into the input box.",
+      "Choose the conversion direction — number to Roman, or Roman to number.",
+      "Click Run Tool to see the result.",
+      "Click Copy to place the output on your clipboard."
+    ],
+    "useCases": [
+      "Converting chapter or section numbers for a document that uses Roman numerals.",
+      "Reading old book copyright dates or movie copyright years written in Roman numerals.",
+      "Teaching the Roman numeral system or checking homework answers.",
+      "Generating stylized numeric text for titles, wedding invitations, or tattoos."
+    ]
+  }
+}
