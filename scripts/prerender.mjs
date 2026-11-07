@@ -55,7 +55,7 @@ const SITEMAP_SOURCES = [
   'sitemap-country-codes.xml',
 ]
 
-const SKIP_EXACT = new Set(['/', '/api'])
+const SKIP_EXACT = new Set(['/api'])
 const SKIP_PREFIXES = ['/embed', '/auth', '/reset', '/my-', '/compare-', '/settings']
 
 function shouldSkip(p) {
@@ -67,7 +67,7 @@ function shouldSkip(p) {
 
 function outPathFor(routePath) {
   const rel = routePath.replace(/^\/+/, '').replace(/\/+$/, '')
-  if (!rel) return null
+  if (!rel) return resolve(DIST, 'index.html')
   return resolve(DIST, rel, 'index.html')
 }
 
@@ -103,7 +103,7 @@ function loadRoutes() {
 }
 
 const routes = loadRoutes()
-const todo = routes.filter(r => opt.force || !existsSync(outPathFor(r.path)))
+const todo = routes.filter(r => opt.force || r.path === '/' || !existsSync(outPathFor(r.path)))
 console.log(`Routes: ${routes.length}   To render: ${todo.length}   Skipping (exists): ${routes.length - todo.length}   Workers: ${opt.workers}`)
 if (todo.length === 0) { console.log('RESULT: nothing to do.'); process.exit(0) }
 
@@ -167,8 +167,9 @@ async function waitForPreview(timeoutMs = 20000) {
         const routePath = item.path
         const outFile = outPathFor(routePath)
 
-        if (!opt.force && existsSync(outFile)) { done++; skip++; line(wid, 'SKIP', routePath, ''); continue }
-        if (opt.force && existsSync(outFile)) { try { unlinkSync(outFile) } catch {} }
+        const isRoot = routePath === '/'
+        if (!opt.force && !isRoot && existsSync(outFile)) { done++; skip++; line(wid, 'SKIP', routePath, ''); continue }
+        if (opt.force && existsSync(outFile) && !isRoot) { try { unlinkSync(outFile) } catch {} }
 
         const page = await ctx.newPage()
         const t0 = Date.now()
@@ -221,3 +222,4 @@ async function waitForPreview(timeoutMs = 20000) {
     process.exit(1)
   }
 })()
+
