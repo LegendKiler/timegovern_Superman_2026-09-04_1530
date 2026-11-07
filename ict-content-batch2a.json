@@ -1,0 +1,133 @@
+{
+  "url-encode": {
+    "intro": "URL-encoding, formally called percent-encoding, represents characters that are not allowed in URLs using a percent sign followed by two hexadecimal digits. URLs historically support only a small ASCII subset, so spaces, ampersands, equals signs, slashes, and non-ASCII characters like accented letters or emoji must all be converted. Each problematic character becomes the hexadecimal value of its UTF-8 bytes, so a space becomes %20, an ampersand becomes %26, and a three-byte emoji becomes three separate %XX sequences. Modern browsers handle this automatically when you type in the address bar, but developers must encode explicitly whenever they build query strings, redirect URIs, or API calls in code. The most common mistake is mixing %20 (correct everywhere) with + (legacy, valid only in application/x-www-form-urlencoded).",
+    "howToUse": [
+      "Paste the text you want to encode, or the URL-encoded string you want to decode, into the input box.",
+      "Choose Encode or Decode mode from the tab row above the input.",
+      "Click Run Tool — the result appears in the output panel below.",
+      "Click Copy to place the result on your clipboard, ready for pasting into a URL or query string."
+    ],
+    "useCases": [
+      "Building query strings safely when the search term or filter value contains spaces, ampersands, or unicode.",
+      "Constructing OAuth redirect URIs that must exactly match a pre-registered URL character for character.",
+      "Debugging 400 Bad Request errors caused by unencoded ampersands breaking query parameters mid-string.",
+      "Encoding non-ASCII characters such as Chinese, Arabic, or emoji for use in legacy URL systems."
+    ]
+  },
+  "html-entity": {
+    "intro": "HTML entities are special character sequences that let you display characters which would otherwise be interpreted as HTML markup. The five mandatory ones are &amp; (ampersand), &lt; (less-than), &gt; (greater-than), &quot; (double quote), and &#39; (apostrophe) — if you typed these literally into HTML, the browser would parse them as tags or attribute delimiters, breaking the page. Beyond those, HTML defines over 2,000 named entities like &nbsp; (non-breaking space), &copy; (copyright symbol), &mdash; (em dash), &hellip; (ellipsis), and thousands of numeric entities (&#x1F600; for emoji). This tool lets you escape arbitrary text so it renders literally inside HTML — critical for accepting user input without creating cross-site scripting vulnerabilities. It also decodes existing entities back to readable text, handy when reading API responses or debugging escaped template output.",
+    "howToUse": [
+      "Paste the text or HTML snippet you want to process into the input box.",
+      "Select Encode to escape special characters, or Decode to convert entities back to readable characters.",
+      "Click Run Tool to see the result in the output panel.",
+      "Copy the output into your HTML file, template engine, or debugging session."
+    ],
+    "useCases": [
+      "Safely escaping user-supplied input before embedding it into HTML to prevent XSS attacks.",
+      "Displaying code samples like <script> tags as text rather than letting them execute.",
+      "Converting HTML entity-laden content from CMS exports back to plain readable text.",
+      "Inserting literal ampersands, angle brackets, or quotes in HTML attribute values without breaking parsing."
+    ]
+  },
+  "sha1": {
+    "intro": "SHA-1 (Secure Hash Algorithm 1) is a cryptographic hash function published by NIST in 1995 that produces a 160-bit (40 hexadecimal character) output. It was the standard for digital signatures, TLS certificates, and Git commit IDs for over two decades. In February 2017, Google and CWI Amsterdam demonstrated the SHAttered attack — two distinct PDF files with identical SHA-1 hashes — making the algorithm cryptographically broken for any security-sensitive use. Since then, major browsers, certificate authorities, and platforms have deprecated SHA-1 entirely. It survives only in legacy contexts: Git commit IDs (deliberately preserved for backward compatibility, with a planned migration to SHA-256), old file integrity checks, and academic references. Never use SHA-1 for password hashing, digital signatures, or any new security system — SHA-256 and SHA-512 have replaced it in every modern context.",
+    "howToUse": [
+      "Paste the text you want to hash into the input field.",
+      "Click Run Tool — the 40-character hexadecimal SHA-1 digest appears in the output panel.",
+      "Click Copy to place the hash on your clipboard for verification or storage."
+    ],
+    "useCases": [
+      "Verifying legacy file checksums that were originally published as SHA-1 hashes.",
+      "Learning how hash algorithms work by comparing SHA-1 output to SHA-256 side by side.",
+      "Reproducing Git commit IDs when debugging or writing scripts that reference specific commits.",
+      "Interoperating with older systems that still require SHA-1 for authentication or integrity checks."
+    ]
+  },
+  "sha256": {
+    "intro": "SHA-256 is a member of the SHA-2 family of cryptographic hash functions, published by NIST in 2001 and designed by the NSA. It produces a 256-bit (64 hexadecimal character) output and remains the modern default for cryptographic hashing. You use it every day without knowing it: TLS certificates, Bitcoin proof-of-work, JWT signature algorithms (HS256/RS256), password hashing pipelines (as a primitive, never directly), file integrity checks, and package managers like npm and pip all rely on SHA-256. The algorithm is deterministic (same input always produces the same hash), collision-resistant (no two different inputs have ever been found with the same hash), and one-way (you cannot recover the input from the hash). For any new project that needs a cryptographic hash, SHA-256 is the safe default unless you have a specific reason to pick something else.",
+    "howToUse": [
+      "Paste the text you want to hash into the input field.",
+      "Click Run Tool — the 64-character hexadecimal SHA-256 digest appears in the output panel.",
+      "Click Copy to place the hash on your clipboard for verification, storage, or comparison."
+    ],
+    "useCases": [
+      "Verifying file downloads against published SHA-256 checksums before running executables.",
+      "Generating content hashes for cache-busting or content-addressed storage systems.",
+      "Signing JSON Web Tokens (HS256 algorithm) in authentication flows.",
+      "Comparing hashes to detect whether two files or strings are identical without transferring full content."
+    ]
+  },
+  "sha512": {
+    "intro": "SHA-512 is another member of the SHA-2 family, producing a 512-bit (128 hexadecimal character) output — twice the size of SHA-256. It shares the same design principles (deterministic, collision-resistant, one-way) and is considered equally secure. The choice between SHA-256 and SHA-512 is largely a performance question: on 64-bit processors SHA-512 is often slightly faster than SHA-256 because its internal word size matches the CPU, while on 32-bit embedded systems SHA-256 is faster. Most applications default to SHA-256 because its 64-character output is easier to display and store, but SHA-512 is preferred in contexts where output size is not a constraint and raw throughput matters — some cryptographic libraries, Bitcoin variants, and password hashing pipelines use it. For hashing arbitrary text, either is fine; the security difference is negligible for practical purposes.",
+    "howToUse": [
+      "Paste the text you want to hash into the input field.",
+      "Click Run Tool — the 128-character hexadecimal SHA-512 digest appears in the output panel.",
+      "Click Copy to place the hash on your clipboard for storage or comparison."
+    ],
+    "useCases": [
+      "Generating longer hashes when extra output bits add a comfort margin for security-critical systems.",
+      "Benchmarking SHA-256 vs SHA-512 performance on your target hardware for cryptographic workloads.",
+      "Matching checksums from systems that publish SHA-512 hashes specifically (some Linux distributions).",
+      "Producing entropy-rich strings for use as deterministic pseudorandom identifiers."
+    ]
+  },
+  "jwt-decoder": {
+    "intro": "A JSON Web Token (JWT) is a compact, URL-safe format for transmitting claims between two parties, defined in RFC 7519. It consists of three Base64url-encoded parts separated by dots: a header describing the token type and signature algorithm, a payload containing the claims (like user ID, expiry time, and custom data), and a signature that proves the token was issued by a trusted party. JWTs power modern authentication everywhere — OAuth 2.0 flows, OpenID Connect SSO, API authorization, and session tokens. This decoder splits a JWT into its three parts and shows you the decoded header and payload as readable JSON. Critical security note: decoding is NOT the same as verifying — this tool does not check the signature, so any modified token will still decode. Never accept a token as valid based on decoding alone; the receiving server must verify the signature with the shared secret or public key. Also remember that the payload is base64-encoded, not encrypted: anyone can read it, so never put passwords, credit cards, or secrets inside a JWT.",
+    "howToUse": [
+      "Paste your JWT (the long string starting with eyJ...) into the input box.",
+      "Click Run Tool to decode the header and payload sections.",
+      "Inspect the header to see the signing algorithm (HS256, RS256, etc.) and key ID.",
+      "Examine the payload to see the claims — expiration (exp), issuer (iss), subject (sub), and any custom fields."
+    ],
+    "useCases": [
+      "Debugging authentication failures by inspecting the exp claim to see if the token has expired.",
+      "Verifying that custom claims like user roles or tenant IDs are being set correctly during login.",
+      "Inspecting JWT structure when integrating a new OAuth provider or SSO system.",
+      "Auditing an application's JWT usage to confirm no sensitive data is being placed in the payload."
+    ]
+  },
+  "uuid-generator": {
+    "intro": "A UUID (Universally Unique Identifier) is a 128-bit value rendered as 32 hexadecimal digits in the format 8-4-4-4-12, like 550e8400-e29b-41d4-a716-446655440000. The most common version, UUID v4, is generated from a cryptographically secure random number source and encodes 122 bits of randomness — enough that the probability of two UUIDs colliding anywhere in the universe is effectively zero. UUIDs solve a specific problem: generating unique IDs across distributed systems without a central authority. Two servers in different data centers can independently generate UUIDs and never collide, which is why they are the standard primary key type in modern databases (Postgres, MongoDB), request tracing systems, and distributed queues. The downside is size — 16 bytes versus 4 or 8 for integer IDs — and worse index performance in B-tree databases since random UUIDs scatter across the index. For sorted iteration, UUID v7 (which embeds a millisecond timestamp in the high bits) is increasingly replacing v4.",
+    "howToUse": [
+      "Click Run Tool to generate a new UUID v4.",
+      "Click Copy to copy the UUID to your clipboard.",
+      "Repeat as needed — each click produces a new random UUID."
+    ],
+    "useCases": [
+      "Generating primary keys for database rows in distributed systems where no central ID server is available.",
+      "Assigning unique request IDs in logs and traces to correlate events across microservices.",
+      "Creating temporary identifiers for file uploads, background job tracking, or session tokens.",
+      "Seeding fixture data in test suites with IDs that are guaranteed unique across runs."
+    ]
+  },
+  "random-string": {
+    "intro": "A random string generator produces sequences of characters from a chosen alphabet for use as test data, temporary passwords, API keys, or unique tokens. The critical distinction is between Math.random()-based generation and cryptographically secure generation using crypto.getRandomValues() — the former is fast but predictable (given enough outputs an attacker can predict future values), while the latter draws from the operating system's entropy pool and is safe for anything security-sensitive. This tool uses the browser's Web Crypto API when you need cryptographic-grade randomness. Common alphabets include alphanumeric (a-z, A-Z, 0-9), lowercase-only, hexadecimal, or custom sets for specific formats. The length determines entropy: a 16-character alphanumeric string has about 95 bits of entropy, which is plenty for most API keys and tokens; a 6-character string has only 35 bits and is brute-forceable in hours.",
+    "howToUse": [
+      "Enter the length of the string you want to generate (16-32 is typical for tokens).",
+      "Choose the character set: alphanumeric, lowercase, uppercase, numeric, hexadecimal, or custom.",
+      "Click Run Tool to generate the random string.",
+      "Click Copy to place the string on your clipboard."
+    ],
+    "useCases": [
+      "Generating API keys or access tokens for development and testing (rotate before production).",
+      "Filling test fixtures with unique random strings to avoid collisions between test runs.",
+      "Creating temporary passwords for account reset flows or one-time credentials.",
+      "Producing random identifiers for non-security-critical uses like cache keys or correlation IDs."
+    ]
+  },
+  "password-generator": {
+    "intro": "A strong password is defined by entropy, not visual complexity. The old advice to use 'P@ssw0rd!' style passwords with symbol substitutions is outdated — modern cracking tools substitute letters for numbers instantly, and human-chosen complexity patterns are highly predictable. NIST's current guidelines (SP 800-63B) recommend long passphrases generated by a password manager, minimum 16 characters, with no forced composition rules. Entropy scales logarithmically with length: a 16-character password from a 94-character alphabet has about 104 bits of entropy, which is effectively unbreakable by any current or foreseeable technology. The single biggest risk is password reuse — if one site leaks your password and you use it elsewhere, that site becomes the attack vector for all your accounts. Use a password manager, let it generate unique 20+ character passwords for every account, and enable two-factor authentication on your most important accounts.",
+    "howToUse": [
+      "Choose the password length — 16 minimum, 20+ recommended for critical accounts.",
+      "Select which character classes to include (lowercase, uppercase, digits, symbols).",
+      "Optionally enable word-based generation (Diceware passphrase) for passwords you need to type manually.",
+      "Click Run Tool to generate the password, then Copy to store it in your password manager."
+    ],
+    "useCases": [
+      "Generating unique passwords for each account during password manager onboarding.",
+      "Creating high-entropy administrative credentials for servers, databases, and cloud services.",
+      "Producing passphrases for master password use cases where you need to type it manually.",
+      "Refreshing credentials after a data breach notification on any service you use."
+    ]
+  }
+}
