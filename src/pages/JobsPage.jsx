@@ -154,6 +154,7 @@ export default function JobsPage() {
   }, []);
   return (
     <div className="container mx-auto p-4">
+      <h1 className="text-4xl font-bold mb-6 text-foreground">TimeGovern Jobs</h1>
       <Card className="bg-gradient-to-br from-primary/10 via-card to-secondary/10 border-border shadow-xl mb-6">
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-2xl">

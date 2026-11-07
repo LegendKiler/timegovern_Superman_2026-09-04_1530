@@ -1,23 +1,29 @@
-# Allow AI Agents (Crucial for 2026 visibility)
-User-agent: GPTBot
-Allow: /
-Allow: /flights/
-
-User-agent: ClaudeBot
-Allow: /
-Allow: /flights/
-
-User-agent: Google-Extended
-Allow: /
-Allow: /flights/
-
-# Block search parameter spam to save crawl budget
+# Allow all search engines and AI bots to crawl your tools and blogs
 User-agent: *
+Allow: /
+Allow: /blog/
+Allow: /flights/
+Allow: /calculators/
+
+# Block search parameter spam to save Google's crawl budget
 Disallow: /flights?*
 Disallow: /*?origin=
 Disallow: /*?destination=
+Disallow: /search
+Disallow: /api/
+
+# Explicitly welcome AI Bots (Crucial for 2026 visibility)
+User-agent: GPTBot
 Allow: /
 
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+# Sitemaps
 Sitemap: https://timegovern.com/sitemap-index.xml
-Sitemap: https://timegovern.com/sitemap-flights.xml
 Sitemap: https://timegovern.com/sitemap-core.xml
+Sitemap: https://timegovern.com/sitemap-blog.xml
+Sitemap: https://timegovern.com/sitemap-calculators.xml

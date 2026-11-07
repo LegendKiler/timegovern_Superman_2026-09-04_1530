@@ -1,0 +1,3 @@
+# Google AdSense
+# Uncomment and add your Publisher ID when approved:
+# google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0

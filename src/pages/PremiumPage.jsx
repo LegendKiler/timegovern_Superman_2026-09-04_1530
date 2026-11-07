@@ -15,6 +15,7 @@ export default function PremiumPage() {
 
   return (
     <div className="container mx-auto p-4 max-w-lg">
+      <h1 className="text-4xl font-bold mb-6 text-foreground">Premium Features</h1>
       <Card>
         <CardHeader><CardTitle>Premium Membership</CardTitle></CardHeader>
         <CardContent>

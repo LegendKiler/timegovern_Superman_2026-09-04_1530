@@ -5478,6 +5478,7 @@ export default function SiteMap() {
   }, []);
   return (
     <div className="container mx-auto p-4">
+      <h1 className="text-4xl font-bold mb-6 text-foreground">Site Map</h1>
       <Card>
         <CardHeader>
           <CardTitle>Site Map</CardTitle>
