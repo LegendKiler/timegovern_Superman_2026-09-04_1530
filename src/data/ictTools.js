@@ -53,6 +53,19 @@ export const ICT_TOOLS = [
   // ==================== ENCODING (3) ====================
   { slug: 'base64', name: 'Base64 Encoder / Decoder', category: 'encoding',
     description: 'Encode text to Base64 or decode Base64 back to text.',
+    intro: 'Base64 is a binary-to-text encoding scheme that represents binary data as a string of printable ASCII characters. It was originally designed to transmit binary attachments like images and executables through text-only channels such as email (SMTP) and older network protocols that only supported 7-bit ASCII. Modern developers still use Base64 every day — it powers inline images in CSS and HTML, JSON Web Tokens (JWTs), Basic Auth headers, and many data URL schemes. The encoding maps every three bytes of input to four ASCII characters, using the 64-character set A–Z, a–z, 0–9, +, and /. Padding with = ensures the output length is always a multiple of four. Because it enlarges the payload by roughly 33%, Base64 is meant for transport and embedding, not storage.',
+    howToUse: [
+      'Paste the text you want to encode, or the Base64 string you want to decode, into the input box.',
+      'Choose the Encode or Decode mode from the tab row above the input.',
+      'Click Run Tool — the result appears in the output panel below.',
+      'Click Copy to copy the result to your clipboard, ready for pasting into JWT debuggers, Authorization headers, or CSS files.',
+    ],
+    useCases: [
+      'Embedding small images directly inside CSS or HTML with data URLs, avoiding a separate HTTP request.',
+      'Inspecting and constructing JSON Web Tokens while debugging authentication flows.',
+      'Encoding HTTP Basic Auth credentials (username:password) for testing API endpoints.',
+      'Sending binary payloads through log aggregation systems that only accept printable text.',
+    ],
     faqs: [
       { q: 'What is Base64?', a: 'Base64 is a binary-to-text encoding that represents binary data using 64 printable characters. Commonly used to embed images in HTML/CSS or transmit binary data over text protocols.' },
       { q: 'Is Base64 encryption?', a: 'No. Base64 is encoding, not encryption. Anyone can decode it. Never use it to protect sensitive data.' },
@@ -234,6 +247,19 @@ export const ICT_TOOLS = [
 
   { slug: 'lorem-ipsum', name: 'Lorem Ipsum Generator', category: 'text',
     description: 'Generate placeholder text for designs and mockups.',
+    intro: 'Lorem ipsum is placeholder text that designers, publishers, and developers have used for over five centuries to preview layouts without the distraction of meaningful content. The text originates from a passage of Cicero\'s "De finibus bonorum et malorum", written in 45 BC — but the words were scrambled and altered in the 1500s by an anonymous typesetter, and the version we use today is essentially nonsensical. That is precisely the point. When you fill a mockup with real words, reviewers focus on the words instead of the layout, the spacing, the typography, or the visual hierarchy. Lorem ipsum solves this by providing believable letter and word distribution — the rhythm and density of real Latin text — without any semantic meaning. Modern designers use it in Figma files, WordPress themes, HTML prototypes, and email templates so stakeholders evaluate the design, not the copy.',
+    howToUse: [
+      'Enter the number of paragraphs you need in the input field (default is 3).',
+      'Click Run Tool to generate the placeholder text.',
+      'Click Copy to place the generated paragraphs on your clipboard.',
+      'Paste the text into your design file, HTML template, or CMS draft.',
+    ],
+    useCases: [
+      'Filling Figma, Sketch, or Adobe XD mockups so reviewers evaluate layout rather than copy.',
+      'Testing typography, line height, and paragraph spacing in a new CSS or Tailwind theme.',
+      'Drafting WordPress, Webflow, or Shopify templates before real marketing copy is finalized.',
+      'Standing in for long-form article text while building email newsletter layouts.',
+    ],
     faqs: [
       { q: 'What is Lorem Ipsum?', a: 'Dummy text derived from a Latin passage by Cicero. Used by designers for centuries to test layouts without distraction from readable content.' },
     ],
@@ -490,6 +516,19 @@ export const ICT_TOOLS = [
     outputType: 'textarea' },
   { slug: 'regex-tester', name: 'Regex Tester', category: 'text',
     description: 'Test regular expressions against sample text and see all matches.',
+    intro: 'A regular expression — regex for short — is a compact language for describing patterns in text. It is the standard tool for validating email addresses, phone numbers, and passwords; for extracting structured data from logs and HTML; and for search-and-replace operations in every modern code editor. Regex syntax is famously dense and unforgiving — a single missing backslash can silently break a pattern, and catastrophic backtracking can freeze an application on adversarial input. That is why a regex tester is essential: it lets you iterate on a pattern against real sample text in your browser, seeing every match as you refine. This tester uses the JavaScript RegExp engine (the same one used in Node.js and every browser), so any pattern that works here will work in your production code. It is entirely client-side — your patterns and test strings never leave your machine, which makes it safe to paste production-adjacent data during debugging.',
+    howToUse: [
+      'Enter your regular expression pattern in the pattern field (include flags like g, i, or m if needed).',
+      'Paste the sample text you want to test against into the input box.',
+      'Click Run Tool to see all matches highlighted in the output.',
+      'Iterate — tweak the pattern and re-run until the matches match your intent.',
+    ],
+    useCases: [
+      'Validating email address, URL, phone number, and password formats before wiring into form validation code.',
+      'Extracting timestamps, IPs, or user IDs from server logs during incident debugging.',
+      'Finding all occurrences of a string in a large file when search-and-replace would be too broad.',
+      'Constructing capture groups for use in JavaScript replace() or matchAll() calls.',
+    ],
     faqs: [
       { q: 'What is a regex?', a: 'A regular expression is a sequence of characters that defines a search pattern. Used for validation, search-and-replace, and text parsing.' },
     ],

@@ -211,6 +211,31 @@ export default function IctToolPage() {
         </CardContent>
       </Card>
 
+      {/* Long-form content — improves content depth for AdSense compliance */}
+      {(tool.intro || tool.howToUse || tool.useCases) && (
+        <section className="mb-10 space-y-6">
+          {tool.intro && (
+            <p className="text-sm md:text-base text-muted-foreground leading-relaxed">{tool.intro}</p>
+          )}
+          {tool.howToUse && tool.howToUse.length > 0 && (
+            <div>
+              <h2 className="text-xl font-black tracking-tight mb-3">How to use it</h2>
+              <ol className="space-y-2 text-sm text-muted-foreground list-decimal list-inside ml-2">
+                {tool.howToUse.map((s, i) => <li key={i}>{s}</li>)}
+              </ol>
+            </div>
+          )}
+          {tool.useCases && tool.useCases.length > 0 && (
+            <div>
+              <h2 className="text-xl font-black tracking-tight mb-3">Common use cases</h2>
+              <ul className="space-y-2 text-sm text-muted-foreground list-disc list-inside ml-2">
+                {tool.useCases.map((s, i) => <li key={i}>{s}</li>)}
+              </ul>
+            </div>
+          )}
+        </section>
+      )}
+
       {/* FAQs */}
       {tool.faqs && tool.faqs.length > 0 && (
         <section className="mb-10">
