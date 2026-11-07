@@ -297,7 +297,7 @@ export default function CarBooking() {
               <Car className="h-7 w-7 text-cyan-300" />
             </div>
             <div>
-              <h1 className="text-2xl md:text-4xl font-black tracking-tight">Find Your Ride</h1>
+              <h2 className="text-2xl md:text-4xl font-black tracking-tight">Find Your Ride</h2>
               <p className="text-cyan-200 text-xs md:text-sm font-medium">Worldwide car rental comparison</p>
             </div>
           </div>
