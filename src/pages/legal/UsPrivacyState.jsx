@@ -1,5 +1,7 @@
 ﻿import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
+import { LegalExtras } from '../../components/LegalExtras'
+
 export default function UsPrivacyState() {
   const states = [
     { name: "California (CCPA/CPRA)", rights: ["Know", "Delete", "Correct", "Opt-out of sale", "Limit sensitive data", "Non-discrimination"], privateAction: true },
@@ -49,6 +51,7 @@ export default function UsPrivacyState() {
           <p className="text-sm text-muted-foreground">New laws effective July 1, 2026 or later: Arkansas (APIPA – minors protections), Vermont (VDPA), Alabama (APDPA – effective May 2027), Oklahoma (OKCDPA – effective Jan 2027) .</p>
         </CardContent>
       </Card>
+      <LegalExtras category="privacy" context="your US state" />
     </div>
   )
 }

@@ -1,5 +1,7 @@
 ﻿import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
+import { LegalExtras } from '../../components/LegalExtras'
+
 export default function MiddleEastPrivacy() {
   return (
     <div className="container mx-auto p-4 max-w-4xl">
@@ -27,6 +29,7 @@ export default function MiddleEastPrivacy() {
           </div>
         </CardContent>
       </Card>
+      <LegalExtras category="privacy" context="the Middle East" />
     </div>
   )
 }

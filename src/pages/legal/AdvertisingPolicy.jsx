@@ -3,6 +3,8 @@ import { setPageMeta } from '../../lib/seo';
 ﻿import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Megaphone } from "lucide-react"
 
+import { LegalExtras } from '../../components/LegalExtras'
+
 export default function AdvertisingPolicy() {
 
   useEffect(() => {
@@ -39,6 +41,7 @@ export default function AdvertisingPolicy() {
           </div>
         </CardContent>
       </Card>
+      <LegalExtras category="legal-advertising" />
     </div>
   )
 }

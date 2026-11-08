@@ -1,5 +1,7 @@
 ﻿import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
+import { LegalExtras } from '../../components/LegalExtras'
+
 export default function AfricaPrivacy() {
   const countries = [
     { name: "South Africa", law: "POPIA (Protection of Personal Information Act)", regulator: "Information Regulator", key: ["Mandatory DPO", "High penalties (10 million ZAR)", "AI content rules"] },
@@ -41,6 +43,7 @@ export default function AfricaPrivacy() {
           <p className="text-sm text-muted-foreground">New laws enacted in 2025 include Djibouti, Gambia, and Algeria. Regulators became operational in Malawi, Togo, and Republic of the Congo .</p>
         </CardContent>
       </Card>
+      <LegalExtras category="privacy" context="Africa" />
     </div>
   )
 }

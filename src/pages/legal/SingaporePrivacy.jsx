@@ -1,6 +1,8 @@
 ﻿import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Lock, Bell, UserCheck } from "lucide-react"
 
+import { LegalExtras } from '../../components/LegalExtras'
+
 export default function SingaporePrivacy() {
   return (
     <div className="container mx-auto p-4 max-w-4xl">
@@ -41,6 +43,7 @@ export default function SingaporePrivacy() {
           </div>
         </CardContent>
       </Card>
+      <LegalExtras category="privacy" context="Singapore" />
     </div>
   )
 }

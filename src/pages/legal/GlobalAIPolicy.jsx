@@ -4,6 +4,8 @@ import { setPageMeta } from '../../lib/seo';
 import { Link } from "react-router-dom"
 import { Shield, Cpu, FileText, Globe2 } from "lucide-react"
 
+import { LegalExtras } from '../../components/LegalExtras'
+
 export default function GlobalAIPolicy() {
 
   useEffect(() => {
@@ -60,6 +62,7 @@ export default function GlobalAIPolicy() {
           </div>
         </CardContent>
       </Card>
+      <LegalExtras category="ai" context="international AI governance" />
     </div>
   )
 }

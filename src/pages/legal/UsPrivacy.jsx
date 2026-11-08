@@ -1,6 +1,8 @@
 ﻿import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Shield, Globe2, FileCheck } from "lucide-react"
 
+import { LegalExtras } from '../../components/LegalExtras'
+
 export default function UsPrivacy() {
   return (
     <div className="container mx-auto p-4 max-w-4xl">
@@ -48,6 +50,7 @@ export default function UsPrivacy() {
           </div>
         </CardContent>
       </Card>
+      <LegalExtras category="privacy" context="the United States" />
     </div>
   )
 }

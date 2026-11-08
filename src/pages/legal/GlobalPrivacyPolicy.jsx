@@ -3,6 +3,8 @@ import { setPageMeta } from '../../lib/seo';
 ﻿import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Link } from "react-router-dom"
 
+import { LegalExtras } from '../../components/LegalExtras'
+
 export default function GlobalPrivacyPolicy() {
 
   useEffect(() => {
@@ -74,6 +76,7 @@ export default function GlobalPrivacyPolicy() {
           </div>
         </CardContent>
       </Card>
+      <LegalExtras category="privacy" context="every jurisdiction we operate in" />
     </div>
   )
 }

@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button"
 import { Switch } from "@/components/ui/switch" // Ensure Switch component exists; otherwise use simple checkbox
 import { setPageMeta } from '../../lib/seo';
 
+import { LegalExtras } from '../../components/LegalExtras'
+
 export default function PrivacySettings() {
 
   useEffect(() => {
@@ -60,6 +62,7 @@ export default function PrivacySettings() {
           </div>
         </CardContent>
       </Card>
+      <LegalExtras category="privacy" context="your region" />
     </div>
   )
 }

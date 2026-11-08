@@ -13,6 +13,8 @@ const regions = [
   { to: "/australia-privacy", label: "Australia", icon: ShieldCheck, desc: "Privacy Act 1988" },
 ]
 
+import { LegalExtras } from '../../components/LegalExtras'
+
 export default function GlobalPrivacyCenter() {
 
   useEffect(() => {
@@ -53,6 +55,7 @@ export default function GlobalPrivacyCenter() {
           </Link>
         ))}
       </div>
+      <LegalExtras category="privacy" context="your region" />
     </div>
   )
 }

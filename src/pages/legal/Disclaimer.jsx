@@ -2,6 +2,8 @@ import { useEffect } from 'react';
 import { setPageMeta } from '../../lib/seo';
 ﻿import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
+import { LegalExtras } from '../../components/LegalExtras'
+
 export default function Disclaimer() {
 
   useEffect(() => {
@@ -37,6 +39,7 @@ export default function Disclaimer() {
           </div>
         </CardContent>
       </Card>
+      <LegalExtras category="legal-disclaimer" />
     </div>
   )
 }

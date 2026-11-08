@@ -2,6 +2,8 @@ import { useEffect } from 'react';
 import { setPageMeta } from '../../lib/seo';
 ﻿import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
+import { LegalExtras } from '../../components/LegalExtras'
+
 export default function UkAIAddendum() {
 
   useEffect(() => {
@@ -36,6 +38,7 @@ export default function UkAIAddendum() {
           </div>
         </CardContent>
       </Card>
+      <LegalExtras category="ai" context="the UK AI framework" />
     </div>
   )
 }

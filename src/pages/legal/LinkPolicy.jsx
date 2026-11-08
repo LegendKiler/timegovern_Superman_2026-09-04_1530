@@ -3,6 +3,8 @@ import { setPageMeta } from '../../lib/seo';
 ﻿import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ExternalLink } from "lucide-react"
 
+import { LegalExtras } from '../../components/LegalExtras'
+
 export default function LinkPolicy() {
 
   useEffect(() => {
@@ -39,6 +41,7 @@ export default function LinkPolicy() {
           </div>
         </CardContent>
       </Card>
+      <LegalExtras category="legal-links" />
     </div>
   )
 }

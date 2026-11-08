@@ -2,6 +2,8 @@
 import { useEffect } from "react"
 import { setPageMeta } from "../../lib/seo"
 
+import { LegalExtras } from '../../components/LegalExtras'
+
 export default function AustraliaAddendum() {
   useEffect(() => {
     document.title = 'Australia Privacy Addendum | TimeGovern'
@@ -41,6 +43,7 @@ export default function AustraliaAddendum() {
           </div>
         </CardContent>
       </Card>
+      <LegalExtras category="privacy" context="Australia" />
     </div>
   )
 }

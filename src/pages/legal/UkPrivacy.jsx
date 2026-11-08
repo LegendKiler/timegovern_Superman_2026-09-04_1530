@@ -2,6 +2,8 @@ import { useEffect } from 'react';
 import { setPageMeta } from '../../lib/seo';
 ﻿import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
+import { LegalExtras } from '../../components/LegalExtras'
+
 export default function UkPrivacy() {
 
   useEffect(() => {
@@ -56,6 +58,7 @@ export default function UkPrivacy() {
           </div>
         </CardContent>
       </Card>
+      <LegalExtras category="privacy" context="the United Kingdom" />
     </div>
   )
 }

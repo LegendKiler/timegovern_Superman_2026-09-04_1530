@@ -1,5 +1,7 @@
 ﻿import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
+import { LegalExtras } from '../../components/LegalExtras'
+
 export default function SouthAsiaPrivacy() {
   const countries = [
     { name: "India", law: "DPDP Act 2023", regulator: "Data Protection Board of India", key: ["Consent-based", "Data Fiduciary obligations", "Significant Data Fiduciary", "Penalties up to ₹250 crore"] },
@@ -35,6 +37,7 @@ export default function SouthAsiaPrivacy() {
           </Card>
         ))}
       </div>
+      <LegalExtras category="privacy" context="South Asia" />
     </div>
   )
 }

@@ -3,6 +3,8 @@ import { setPageMeta } from '../../lib/seo';
 ﻿import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ShieldCheck, Lock, UserCheck } from "lucide-react"
 
+import { LegalExtras } from '../../components/LegalExtras'
+
 export default function GdprPrivacy() {
 
   useEffect(() => {
@@ -65,6 +67,7 @@ export default function GdprPrivacy() {
           </div>
         </CardContent>
       </Card>
+      <LegalExtras category="privacy" context="the EU" />
     </div>
   )
 }

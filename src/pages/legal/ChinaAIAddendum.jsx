@@ -2,6 +2,8 @@ import { useEffect } from 'react';
 import { setPageMeta } from '../../lib/seo';
 ﻿import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
+import { LegalExtras } from '../../components/LegalExtras'
+
 export default function ChinaAIAddendum() {
 
   useEffect(() => {
@@ -40,6 +42,7 @@ export default function ChinaAIAddendum() {
           </div>
         </CardContent>
       </Card>
+      <LegalExtras category="ai" context="China’s AI regulations" />
     </div>
   )
 }
