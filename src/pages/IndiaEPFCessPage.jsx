@@ -17,6 +17,8 @@ const FAQ = [
 const FAQ_SCHEMA = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: FAQ.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) }
 const ARTICLE_SCHEMA = { '@context': 'https://schema.org', '@type': 'Article', headline: 'India EPF and Health & Education Cess Explained', description: 'Complete guide to India taxation and take-home pay.', author: { '@type': 'Organization', name: 'TimeGovern' }, publisher: { '@type': 'Organization', name: 'TimeGovern' }, url: 'https://timegovern.com/blog/india-epf-cess' }
 
+import { BlogArticleExtras } from '../components/BlogArticleExtras'
+
 export default function IndiaEPFCessPage() {
   useEffect(() => {
     document.title = 'India EPF and Health & Education Cess Explained | TimeGovern'
@@ -100,6 +102,8 @@ export default function IndiaEPFCessPage() {
             {FAQ.map((f, i) => (<Card key={i}><CardContent className="p-5"><h3 className="font-bold mb-2">{f.q}</h3><p className="text-sm text-muted-foreground leading-relaxed">{f.a}</p></CardContent></Card>))}
           </div>
         </div>
+
+        <BlogArticleExtras category="social" />
 
         <div className="flex justify-center mt-8">
           <ShareButtons url={typeof window !== 'undefined' ? window.location.href : ''} title='India EPF and Health & Education Cess Explained' />
