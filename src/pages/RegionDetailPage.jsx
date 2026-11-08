@@ -5,10 +5,12 @@ import { Card, CardContent } from '@/components/ui/card'
 import ShareButtons from '../components/ShareButtons'
 import { setPageMeta } from '../lib/seo'
 import { REGION_BY_SLUG, REGION_SLUGS, METRICS, getCountriesInRegion, regionAggregate } from '../lib/regionCompare'
+import { REGION_CONTENT } from '../data/regionContent'
 
 export default function RegionDetailPage() {
   const { slug } = useParams()
   const regionName = REGION_BY_SLUG[slug]
+  const content = REGION_CONTENT[slug]
 
   const countries = useMemo(() => regionName ? getCountriesInRegion(regionName) : [], [regionName])
   const aggregates = useMemo(() => {
@@ -67,6 +69,22 @@ export default function RegionDetailPage() {
             </CardContent></Card>
           ))}
         </div>
+
+        {content && (
+          <section className="space-y-5">
+            <p className="text-base text-muted-foreground leading-relaxed">{content.intro}</p>
+            <div>
+              <h2 className="text-2xl md:text-3xl font-black tracking-tight mb-3">Regional highlights</h2>
+              <ul className="space-y-2 text-sm text-muted-foreground list-disc list-inside ml-2">
+                {content.highlights.map((h, i) => <li key={i}>{h}</li>)}
+              </ul>
+            </div>
+            <div>
+              <h2 className="text-2xl md:text-3xl font-black tracking-tight mb-3">Economic and demographic context</h2>
+              <p className="text-sm text-muted-foreground leading-relaxed">{content.context}</p>
+            </div>
+          </section>
+        )}
 
         <div>
           <h2 className="text-2xl md:text-3xl font-black tracking-tight mb-4">Countries in {regionName}</h2>

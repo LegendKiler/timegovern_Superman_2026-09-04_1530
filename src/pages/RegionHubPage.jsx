@@ -55,6 +55,27 @@ export default function RegionHubPage() {
           })}
         </div>
 
+        <section className="space-y-5">
+          <p className="text-base text-muted-foreground leading-relaxed">
+            The world’s countries are conventionally grouped into regions that share geographic, cultural, and economic characteristics. These groupings are used by organizations like the World Bank, United Nations, and IMF to organize global statistics and enable meaningful comparisons. Each region has its own population dynamics, economic structure, and environmental footprint, and understanding regional differences is essential for evaluating global trends in population growth, economic development, energy consumption, and climate change.
+          </p>
+          <div>
+            <h2 className="text-2xl font-black tracking-tight mb-3">What you can explore</h2>
+            <ul className="space-y-2 text-sm text-muted-foreground list-disc list-inside ml-2">
+              <li>Population totals and distribution across each region’s constituent countries</li>
+              <li>Economic aggregates including GDP and GDP per capita comparisons</li>
+              <li>Environmental metrics like CO2 emissions, energy use, and water consumption</li>
+              <li>Health outcomes through life expectancy data weighted by population</li>
+            </ul>
+          </div>
+          <div>
+            <h2 className="text-2xl font-black tracking-tight mb-3">How the data is organized</h2>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              Every region page aggregates country-level statistics from authoritative sources — the World Bank for population and GDP, the International Energy Agency for energy data, the FAO for water use, and the Global Carbon Project for CO2 emissions. Sums are computed across all countries in a region that report the relevant metric, while averages like life expectancy are weighted by population so that more populous countries carry proportionally more influence. This produces consistent regional figures that can be compared directly against each other and against global totals.
+            </p>
+          </div>
+        </section>
+
         <div className="flex justify-center mt-8">
           <ShareButtons url={typeof window !== 'undefined' ? window.location.href : ''} title={typeof document !== 'undefined' ? document.title : 'World Regions'} />
         </div>
