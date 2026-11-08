@@ -177,6 +177,16 @@ async function waitForPreview(timeoutMs = 20000) {
         try {
           await page.goto(`http://localhost:${opt.port}${routePath}`, { waitUntil: 'domcontentloaded', timeout: opt.navTimeoutMs })
           try { await page.waitForSelector('h1', { timeout: opt.h1TimeoutMs }) } catch {}
+          // Wait for real content to render, not just the initial shell.
+          // Data-fetching pages (useEffect) need this — otherwise the fixed
+          // settleMs races against the fetch and captures a thin fallback.
+          try {
+            await page.waitForFunction(
+              () => (document.body.innerText || '').length >= 3000,
+              null,
+              { timeout: 4000, polling: 200 }
+            )
+          } catch {}
           await page.waitForTimeout(opt.settleMs)
           bodyText = await page.evaluate(() => document.body.innerText || '')
           h1Count  = await page.evaluate(() => document.querySelectorAll('h1').length)
@@ -222,4 +232,5 @@ async function waitForPreview(timeoutMs = 20000) {
     process.exit(1)
   }
 })()
+
 
