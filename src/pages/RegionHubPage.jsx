@@ -71,7 +71,7 @@ export default function RegionHubPage() {
           <div>
             <h2 className="text-2xl font-black tracking-tight mb-3">How the data is organized</h2>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              Every region page aggregates country-level statistics from authoritative sources — the World Bank for population and GDP, the International Energy Agency for energy data, the FAO for water use, and the Global Carbon Project for CO2 emissions. Sums are computed across all countries in a region that report the relevant metric, while averages like life expectancy are weighted by population so that more populous countries carry proportionally more influence. This produces consistent regional figures that can be compared directly against each other and against global totals.
+              Every region page aggregates country-level statistics from authoritative sources — the World Bank for population and GDP, the International Energy Agency for energy data, the FAO for water use, and the Global Carbon Project for CO2 emissions. Sums are computed across all countries in a region that report the relevant metric, while averages like life expectancy are weighted by population so that more populous countries carry proportionally more influence. This produces consistent regional figures that can be compared directly against each other and against global totals. The methodology follows the same conventions used by major international statistical bodies, which means the aggregate figures shown here align closely with those published by the World Bank and IMF in their own regional reporting. For any region, you can click through to individual country pages to see the underlying country-level data that produces each aggregate, and every figure is refreshed against the latest available international data release.
             </p>
           </div>
         </section>
@@ -83,3 +83,4 @@ export default function RegionHubPage() {
     </>
   )
 }
+
