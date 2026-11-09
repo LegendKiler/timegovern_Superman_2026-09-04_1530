@@ -61,3 +61,8 @@ audit-report-*.txt
 
 # local backups - never commit
 backups/
+
+# audit artifacts
+_thin-content-audit.csv
+_medium-thin-pages.csv
+_backups/
