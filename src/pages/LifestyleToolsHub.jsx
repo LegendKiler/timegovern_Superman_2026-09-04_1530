@@ -4,6 +4,7 @@ import { Sparkles, Coffee, Lightbulb, ArrowRight } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import ShareButtons from '../components/ShareButtons'
 import { setPageMeta } from '../lib/seo'
+import HubExtras from '../components/HubExtras';
 
 const TOOLS = [
   { to: '/tip-calculator', name: 'Tip Calculator', desc: 'Calculate tips, split bills, and see per-person totals instantly.', icon: Coffee, color: 'rose' },
@@ -88,6 +89,7 @@ export default function LifestyleToolsHub() {
         <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-4 text-sm text-muted-foreground">
           <strong className="text-amber-700 dark:text-amber-400">Note:</strong> These tools are for informational purposes only.
         </div>
+      <HubExtras category="reference-hub" />
       </div>
     </>
   )

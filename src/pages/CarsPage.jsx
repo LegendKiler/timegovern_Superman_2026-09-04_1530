@@ -4,6 +4,7 @@ import { Car, Sparkles, ArrowRight, ExternalLink } from 'lucide-react'
 import CarBooking from '../components/CarBooking'
 import ShareButtons from '../components/ShareButtons'
 import { setPageMeta } from '../lib/seo'
+import HubExtras from '../components/HubExtras';
 
 export default function CarsPage() {
   useEffect(() => {
@@ -60,6 +61,7 @@ export default function CarsPage() {
         <div className="flex justify-center mt-8">
           <ShareButtons url={typeof window !== 'undefined' ? window.location.href : ''} title="Car Rental - TimeGovern" />
         </div>
+      <HubExtras category="travel" />
       </div>
     </>
   )

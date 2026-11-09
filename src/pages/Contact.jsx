@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Mail, User, Send, CheckCircle2, AlertCircle } from "lucide-react"
 import { setPageMeta } from "../lib/seo"
+import HubExtras from '../components/HubExtras';
 
 export default function Contact() {
   const [form, setForm] = useState({ name: '', email: '', service: '', message: '' })
@@ -155,6 +156,7 @@ export default function Contact() {
         <p>Or email us directly at: <a href="mailto:support@timegovern.com" className="text-primary hover:underline">support@timegovern.com</a></p>
         <p className="mt-1">Find us on the map or send post to: <span className="font-medium">TimeGovern, Melbourne VIC</span></p>
       </div>
-    </div>
+    <HubExtras category="community" />
+      </div>
   )
 }

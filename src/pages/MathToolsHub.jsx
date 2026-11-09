@@ -4,6 +4,7 @@ import { Calculator, Percent, Sigma, Sparkles, ArrowRight, Divide, BarChart3, Gr
 import { Card, CardContent } from '@/components/ui/card'
 import ShareButtons from '../components/ShareButtons'
 import { setPageMeta } from '../lib/seo'
+import HubExtras from '../components/HubExtras';
 
 const TOOLS = [
   { to: '/ratio-calculator', name: 'Ratio Calculator', desc: 'Simplify ratios and solve proportions (A:B = C:D).', icon: Percent, color: 'purple' },
@@ -95,6 +96,7 @@ export default function MathToolsHub() {
         <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-4 text-sm text-muted-foreground">
           <strong className="text-amber-700 dark:text-amber-400">Note:</strong> These tools are for informational purposes only.
         </div>
+      <HubExtras category="reference-hub" />
       </div>
     </>
   )

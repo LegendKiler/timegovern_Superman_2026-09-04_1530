@@ -4,6 +4,7 @@ import { setPageMeta } from '../lib/seo';
 import { Button } from "@/components/ui/button"
 import { Check, X, Star, Zap, Crown } from "lucide-react"
 import { Link } from "react-router-dom"
+import HubExtras from '../components/HubExtras';
 
 const plans = [
   {
@@ -191,6 +192,7 @@ export default function PricingPage() {
           </div>
         </CardContent>
       </Card>
-    </div>
+    <HubExtras category="marketing" />
+      </div>
   )
 }

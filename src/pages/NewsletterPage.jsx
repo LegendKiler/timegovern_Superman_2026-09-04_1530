@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Mail, CheckCircle2, Podcast, Calendar, Newspaper, Play, Pause, ChevronDown, ChevronUp, AudioLines, Loader2 } from "lucide-react"
 import { newsletterEditions, podcastEpisodes } from '../data/contentData'
 import { setPageMeta } from '../lib/seo';
+import HubExtras from '../components/HubExtras';
 
 // Your TTS API key (free tier: 1M chars/month)
 // Get from https://cloud.google.com/text-to-speech
@@ -275,6 +276,7 @@ export default function NewsletterPage() {
           )}
         </CardContent>
       </Card>
-    </div>
+    <HubExtras category="marketing" />
+      </div>
   )
 }

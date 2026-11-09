@@ -3,6 +3,7 @@ import { setPageMeta } from '../lib/seo';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { useUser } from '../context/UserContext'
+import HubExtras from '../components/HubExtras';
 
 export default function PremiumPage() {
 
@@ -29,6 +30,7 @@ export default function PremiumPage() {
           )}
         </CardContent>
       </Card>
-    </div>
+    <HubExtras category="marketing" />
+      </div>
   )
 }

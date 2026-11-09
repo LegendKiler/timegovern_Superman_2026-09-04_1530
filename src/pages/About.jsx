@@ -3,6 +3,7 @@ import { setPageMeta } from '../lib/seo';
 ﻿import { Card, CardContent } from "@/components/ui/card"
 import { Link } from "react-router-dom"
 import { Globe2, Users, CalendarDays, Rocket, MapPin, Mail, Phone } from "lucide-react"
+import HubExtras from '../components/HubExtras';
 
 export default function About() {
 
@@ -100,6 +101,7 @@ export default function About() {
         <p>© {new Date().getFullYear()} TimeGovern Pty Ltd. All rights reserved.</p>
         <p className="mt-1">Registered in Victoria, Australia | ABN 12 345 678 901</p>
       </div>
-    </div>
+    <HubExtras category="about" />
+      </div>
   )
 }

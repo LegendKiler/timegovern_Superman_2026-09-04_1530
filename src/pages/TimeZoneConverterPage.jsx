@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { fetchCountryCities, pickTimeZone, isValidTimeZone } from '../lib/geoApi';
 import '../styles/time-tools.css';
+import HubExtras from '../components/HubExtras';
 
 const LOCAL_TZ = Intl.DateTimeFormat().resolvedOptions().timeZone;
 const QUICK_COUNTRIES = [
@@ -122,6 +123,7 @@ export default function TimeZoneConverterPage() {
       ) : (
         <p className="hint">Pick a zone, date and time to see the conversion.</p>
       )}
-    </div>
+    <HubExtras category="reference-hub" />
+      </div>
   );
 }

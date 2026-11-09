@@ -4,6 +4,7 @@ import { Code2, Key, QrCode, Sparkles, ArrowRight } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import ShareButtons from '../components/ShareButtons'
 import { setPageMeta } from '../lib/seo'
+import HubExtras from '../components/HubExtras';
 
 const TOOLS = [
   { to: '/password-generator', name: 'Password Generator', desc: 'Create strong, random passwords with custom length and character rules.', icon: Key, color: 'purple' },
@@ -89,6 +90,7 @@ export default function DeveloperToolsHub() {
         <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-4 text-sm text-muted-foreground">
           <strong className="text-amber-700 dark:text-amber-400">Note:</strong> These tools are for informational purposes only.
         </div>
+      <HubExtras category="reference-hub" />
       </div>
     </>
   )

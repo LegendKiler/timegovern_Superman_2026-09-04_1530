@@ -6,6 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Timer, Play, Pause, RotateCcw, Flag, Bell, Zap, Coffee, Clock, AlarmClock as AlarmClockIcon, Plus, Trash2, Volume2, BellRing, BellOff } from "lucide-react"
 import { playBeep, playAlarmSound, startRepeatingAlarm, notify, requestNotificationPermission, SOUND_OPTIONS } from '../utils/sounds'
 import { setPageMeta } from '../lib/seo';
+import HubExtras from '../components/HubExtras';
 
 function pad(n) { return String(n).padStart(2, '0') }
 function fmtMs(ms) {
@@ -64,6 +65,7 @@ export default function TimersPage() {
         <TabsContent value="egg" className="mt-6"><EggTimer /></TabsContent>
         <TabsContent value="alarm" className="mt-6"><AlarmClock /></TabsContent>
       </Tabs>
+      <HubExtras category="reference-hub" />
     </div>
   )
 }

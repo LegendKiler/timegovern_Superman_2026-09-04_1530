@@ -3,6 +3,7 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import { setPageMeta } from '../lib/seo';
+import HubExtras from '../components/HubExtras';
 
 // Fix for default Leaflet marker icons in React
 delete L.Icon.Default.prototype._getIconUrl;
@@ -156,6 +157,7 @@ export default function FlightMap() {
         </div>
       </div>
 
-    </div>
+    <HubExtras category="travel" />
+      </div>
   );
 }

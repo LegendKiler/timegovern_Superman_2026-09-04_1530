@@ -4,6 +4,7 @@ import { ArrowLeftRight, Sparkles, ArrowRight } from 'lucide-react'
 import ShareButtons from '../components/ShareButtons'
 import { setPageMeta } from '../lib/seo'
 import { METRICS } from '../lib/regionCompare'
+import HubExtras from '../components/HubExtras';
 
 export default function CompareHubPage() {
   useEffect(() => {
@@ -52,6 +53,7 @@ export default function CompareHubPage() {
         <div className="flex justify-center mt-8">
           <ShareButtons url={typeof window !== 'undefined' ? window.location.href : ''} title={typeof document !== 'undefined' ? document.title : 'Compare Countries'} />
         </div>
+      <HubExtras category="reference-hub" />
       </div>
     </>
   )

@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useUser } from '../context/UserContext'
 import { setPageMeta } from '../lib/seo';
+import HubExtras from '../components/HubExtras';
 
 const initialPosts = [
   { id: 1, title: "Welcome to TimeGovern Forum!", author: "admin", content: "Feel free to discuss time-related topics." },
@@ -47,6 +48,7 @@ export default function ForumPage() {
           </div>
         </CardContent>
       </Card>
-    </div>
+    <HubExtras category="community" />
+      </div>
   )
 }

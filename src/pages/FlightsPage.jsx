@@ -11,6 +11,7 @@ import { Button } from '@/components/ui/button'
 import { setPageMeta } from '../lib/seo'
 import { searchFlights, searchMultiDates, searchFlightsOctoTrip, searchFlightsAgentWeb } from '../lib/flightSearch'
 import { searchLocations } from '../data/locations'
+import HubExtras from '../components/HubExtras';
 
 const AGENTWEB_KEY = 'aw_live_3131a083e0ffe8afaf3c48685ff354c7'
 const SAVED_KEY = 'timegovern_saved_searches'
@@ -682,6 +683,7 @@ export default function FlightsPage() {
           <p className="text-muted-foreground mb-4">Search for flights above to compare live prices from multiple airlines.</p>
         </CardContent></Card>
       )}
-    </div>
+    <HubExtras category="travel" />
+      </div>
   )
 }
