@@ -5,6 +5,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import FutureValueCalculator from '../components/calculators/FutureValueCalculator'
 import ShareButtons from '../components/ShareButtons'
 import { setPageMeta } from '../lib/seo'
+import CalculatorExtras from '../components/CalculatorExtras.jsx';
 
 const FAQ = [
   { q: "What is future value?", a: "Future value is what an investment will be worth at a future date, given a rate of return and time. $10,000 at 7% for 10 years becomes about $19,671." },
@@ -71,7 +72,9 @@ export default function FutureValueCalculatorPage() {
             See all money tools <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
-      </div>
+      
+      <CalculatorExtras category="finance" />
+</div>
     </>
   )
 }

@@ -5,6 +5,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import RomanNumeralCalculator from '../components/calculators/RomanNumeralCalculator'
 import ShareButtons from '../components/ShareButtons'
 import { setPageMeta } from '../lib/seo'
+import CalculatorExtras from '../components/CalculatorExtras.jsx';
 
 const FAQ = [
   { q: "What are the Roman numeral symbols?", a: "I=1, V=5, X=10, L=50, C=100, D=500, M=1000. Values are combined additively, except when a smaller symbol precedes a larger one — then it is subtracted (IV = 4, IX = 9, XL = 40, etc)." },
@@ -73,7 +74,9 @@ export default function RomanNumeralCalculatorPage() {
             See all math tools <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
-      </div>
+      
+      <CalculatorExtras category="unit-conversion" />
+</div>
     </>
   )
 }

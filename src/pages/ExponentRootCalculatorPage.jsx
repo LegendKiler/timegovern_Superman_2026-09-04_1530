@@ -5,6 +5,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import ExponentRootCalculator from '../components/calculators/ExponentRootCalculator'
 import ShareButtons from '../components/ShareButtons'
 import { setPageMeta } from '../lib/seo'
+import CalculatorExtras from '../components/CalculatorExtras.jsx';
 
 const FAQ = [
   { q: "What is an exponent?", a: "An exponent tells you how many times to multiply a base by itself. 2^10 = 2 x 2 x 2 x 2 x 2 x 2 x 2 x 2 x 2 x 2 = 1024." },
@@ -71,7 +72,9 @@ export default function ExponentRootCalculatorPage() {
             See all math tools <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
-      </div>
+      
+      <CalculatorExtras category="math" />
+</div>
     </>
   )
 }

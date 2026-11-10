@@ -5,6 +5,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import SpeedConverter from '../components/calculators/SpeedConverter'
 import ShareButtons from '../components/ShareButtons'
 import { setPageMeta } from '../lib/seo'
+import CalculatorExtras from '../components/CalculatorExtras.jsx';
 
 const FAQ = [
   { q: "How do I convert km/h to mph?", a: "Multiply by 0.621371. So 100 km/h = 62.14 mph. To go from mph to km/h, multiply by 1.609344." },
@@ -71,7 +72,9 @@ export default function SpeedConverterPage() {
             See all math tools <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
-      </div>
+      
+      <CalculatorExtras category="unit-conversion" />
+</div>
     </>
   )
 }

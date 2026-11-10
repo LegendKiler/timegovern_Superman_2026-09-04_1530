@@ -6,6 +6,7 @@ import MacroCalculator from '../components/calculators/MacroCalculator'
 import ShareButtons from '../components/ShareButtons'
 import SaveCalculation from '../components/SaveCalculation'
 import { setPageMeta } from '../lib/seo'
+import CalculatorExtras from '../components/CalculatorExtras.jsx';
 
 const FAQ = [
   { q: "What are macros?", a: "Macronutrients - protein, fat, and carbohydrates - are the three nutrients your body uses for energy. Tracking them is more precise than tracking calories alone." },
@@ -82,7 +83,9 @@ export default function MacroCalculatorPage() {
         <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-4 text-sm text-muted-foreground">
           <strong className="text-amber-700 dark:text-amber-400">Medical disclaimer:</strong> This calculator provides estimates for informational purposes only. It is not medical advice. Consult a qualified healthcare professional for personalised guidance.
         </div>
-      </div>
+      
+      <CalculatorExtras category="health" />
+</div>
     </>
   )
 }

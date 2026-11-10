@@ -5,6 +5,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import BreakEvenCalculator from '../components/calculators/BreakEvenCalculator'
 import ShareButtons from '../components/ShareButtons'
 import { setPageMeta } from '../lib/seo'
+import CalculatorExtras from '../components/CalculatorExtras.jsx';
 
 const FAQ = [
   { q: "What is the break-even point?", a: "The break-even point is the sales level where total revenue equals total costs. Below it you lose money, above it you profit. It is expressed in units or revenue." },
@@ -71,7 +72,9 @@ export default function BreakEvenCalculatorPage() {
             See all money tools <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
-      </div>
+      
+      <CalculatorExtras category="finance" />
+</div>
     </>
   )
 }

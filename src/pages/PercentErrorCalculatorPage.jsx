@@ -5,6 +5,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import PercentErrorCalculator from '../components/calculators/PercentErrorCalculator'
 import ShareButtons from '../components/ShareButtons'
 import { setPageMeta } from '../lib/seo'
+import CalculatorExtras from '../components/CalculatorExtras.jsx';
 
 const FAQ = [
   { q: "What is percent error?", a: "Percent error measures how far an experimental value is from a theoretical or accepted value. It is the absolute difference divided by the theoretical value, times 100." },
@@ -71,7 +72,9 @@ export default function PercentErrorCalculatorPage() {
             See all math tools <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
-      </div>
+      
+      <CalculatorExtras category="math" />
+</div>
     </>
   )
 }

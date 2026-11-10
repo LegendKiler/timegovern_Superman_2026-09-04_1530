@@ -5,6 +5,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import PresentValueCalculator from '../components/calculators/PresentValueCalculator'
 import ShareButtons from '../components/ShareButtons'
 import { setPageMeta } from '../lib/seo'
+import CalculatorExtras from '../components/CalculatorExtras.jsx';
 
 const FAQ = [
   { q: "What is present value?", a: "Present value is what a future sum of money is worth today, given a discount rate. A $100,000 payment 20 years from now at 7% is worth about $25,842 today." },
@@ -71,7 +72,9 @@ export default function PresentValueCalculatorPage() {
             See all money tools <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
-      </div>
+      
+      <CalculatorExtras category="finance" />
+</div>
     </>
   )
 }

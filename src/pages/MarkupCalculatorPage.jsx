@@ -5,6 +5,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import MarkupCalculator from '../components/calculators/MarkupCalculator'
 import ShareButtons from '../components/ShareButtons'
 import { setPageMeta } from '../lib/seo'
+import CalculatorExtras from '../components/CalculatorExtras.jsx';
 
 const FAQ = [
   { q: "What is the difference between markup and margin?", a: "Markup is profit divided by cost. Margin is profit divided by selling price. A 50% markup is only a 33.3% margin. Margin is always lower than markup for the same dollar profit." },
@@ -71,7 +72,9 @@ export default function MarkupCalculatorPage() {
             See all money tools <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
-      </div>
+      
+      <CalculatorExtras category="finance" />
+</div>
     </>
   )
 }

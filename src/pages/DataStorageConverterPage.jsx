@@ -5,6 +5,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import DataStorageConverter from '../components/calculators/DataStorageConverter'
 import ShareButtons from '../components/ShareButtons'
 import { setPageMeta } from '../lib/seo'
+import CalculatorExtras from '../components/CalculatorExtras.jsx';
 
 const FAQ = [
   { q: "How many bytes are in a kilobyte?", a: "1024 bytes = 1 kilobyte (using binary). However, storage manufacturers often use 1000 bytes = 1 KB (decimal). This is why a 1 TB drive shows about 931 GB in your OS." },
@@ -71,7 +72,9 @@ export default function DataStorageConverterPage() {
             See all math tools <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
-      </div>
+      
+      <CalculatorExtras category="unit-conversion" />
+</div>
     </>
   )
 }

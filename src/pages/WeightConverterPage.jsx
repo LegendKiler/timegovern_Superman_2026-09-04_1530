@@ -5,6 +5,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import WeightConverter from '../components/calculators/WeightConverter'
 import ShareButtons from '../components/ShareButtons'
 import { setPageMeta } from '../lib/seo'
+import CalculatorExtras from '../components/CalculatorExtras.jsx';
 
 const FAQ = [
   { q: "How many grams are in a pound?", a: "One pound is exactly 453.59237 grams. One kilogram is about 2.20462 pounds." },
@@ -71,7 +72,9 @@ export default function WeightConverterPage() {
             See all math tools <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
-      </div>
+      
+      <CalculatorExtras category="unit-conversion" />
+</div>
     </>
   )
 }

@@ -164,6 +164,11 @@ export default function MortgageHubPage() {
           </div>
         </div>
       </section>
+    
+      <section className="hub-extras">
+        <h2>How to use this hub</h2>
+        <p>Mortgage decisions turn on four inputs: loan amount, interest rate, term, and down payment. The calculators here let you vary each one and see the effect on monthly payment, total interest, and payoff time. Start with the main loan calculator for a first estimate, then refine with the amortization or down-payment tools as you narrow down a specific property.</p>
+      </section>
     </div>
   )
 }

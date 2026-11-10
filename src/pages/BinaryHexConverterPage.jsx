@@ -5,6 +5,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import BinaryHexConverter from '../components/calculators/BinaryHexConverter'
 import ShareButtons from '../components/ShareButtons'
 import { setPageMeta } from '../lib/seo'
+import CalculatorExtras from '../components/CalculatorExtras.jsx';
 
 const FAQ = [
   { q: "How do I convert binary to hex?", a: "Group the binary digits in sets of four from the right. Each group of four bits maps to one hex digit (0000 = 0, 1111 = F). Pad the leftmost group with zeros if needed." },
@@ -73,7 +74,9 @@ export default function BinaryHexConverterPage() {
             See all math tools <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
-      </div>
+      
+      <CalculatorExtras category="unit-conversion" />
+</div>
     </>
   )
 }

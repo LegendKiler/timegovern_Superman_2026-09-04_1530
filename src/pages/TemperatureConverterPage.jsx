@@ -5,6 +5,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import TemperatureConverter from '../components/calculators/TemperatureConverter'
 import ShareButtons from '../components/ShareButtons'
 import { setPageMeta } from '../lib/seo'
+import CalculatorExtras from '../components/CalculatorExtras.jsx';
 
 const FAQ = [
   { q: "How do I convert Celsius to Fahrenheit?", a: "Multiply by 9/5, then add 32. So 25°C = 25 x 1.8 + 32 = 77°F. To go the other way, subtract 32 then multiply by 5/9." },
@@ -71,7 +72,9 @@ export default function TemperatureConverterPage() {
             See all math tools <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
-      </div>
+      
+      <CalculatorExtras category="unit-conversion" />
+</div>
     </>
   )
 }

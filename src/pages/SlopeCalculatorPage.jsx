@@ -5,6 +5,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import SlopeCalculator from '../components/calculators/SlopeCalculator'
 import ShareButtons from '../components/ShareButtons'
 import { setPageMeta } from '../lib/seo'
+import CalculatorExtras from '../components/CalculatorExtras.jsx';
 
 const FAQ = [
   { q: "What is slope?", a: "Slope measures how steep a line is. It is the ratio of vertical change (rise) to horizontal change (run) between two points on the line. Slope m = (y2 - y1) / (x2 - x1)." },
@@ -73,7 +74,9 @@ export default function SlopeCalculatorPage() {
             See all math tools <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
-      </div>
+      
+      <CalculatorExtras category="math" />
+</div>
     </>
   )
 }

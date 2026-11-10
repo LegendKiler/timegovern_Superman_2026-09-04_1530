@@ -5,6 +5,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import LogarithmCalculator from '../components/calculators/LogarithmCalculator'
 import ShareButtons from '../components/ShareButtons'
 import { setPageMeta } from '../lib/seo'
+import CalculatorExtras from '../components/CalculatorExtras.jsx';
 
 const FAQ = [
   { q: "What is a logarithm?", a: "A logarithm answers the question: to what power must the base be raised to get this number? log_10(100) = 2 because 10^2 = 100. Logs are the inverse of exponentiation." },
@@ -71,7 +72,9 @@ export default function LogarithmCalculatorPage() {
             See all math tools <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
-      </div>
+      
+      <CalculatorExtras category="math" />
+</div>
     </>
   )
 }

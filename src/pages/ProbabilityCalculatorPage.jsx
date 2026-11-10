@@ -5,6 +5,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import ProbabilityCalculator from '../components/calculators/ProbabilityCalculator'
 import ShareButtons from '../components/ShareButtons'
 import { setPageMeta } from '../lib/seo'
+import CalculatorExtras from '../components/CalculatorExtras.jsx';
 
 const FAQ = [
   { q: "What is the union of two events?", a: "P(A union B) is the probability that at least one of A or B happens. It is P(A) + P(B) - P(A intersection B) so overlap is not counted twice." },
@@ -71,7 +72,9 @@ export default function ProbabilityCalculatorPage() {
             See all math tools <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
-      </div>
+      
+      <CalculatorExtras category="math" />
+</div>
     </>
   )
 }

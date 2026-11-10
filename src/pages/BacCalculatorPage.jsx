@@ -6,6 +6,7 @@ import BacCalculator from '../components/calculators/BacCalculator'
 import ShareButtons from '../components/ShareButtons'
 import SaveCalculation from '../components/SaveCalculation'
 import { setPageMeta } from '../lib/seo'
+import CalculatorExtras from '../components/CalculatorExtras.jsx';
 
 const FAQ = [
   { q: "What is BAC?", a: "Blood Alcohol Content is the percentage of alcohol in your bloodstream. 0.08% means 0.08 grams of alcohol per 100 mL of blood." },
@@ -82,7 +83,9 @@ export default function BacCalculatorPage() {
         <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-4 text-sm text-muted-foreground">
           <strong className="text-amber-700 dark:text-amber-400">Medical disclaimer:</strong> This calculator provides estimates for informational purposes only. It is not medical advice. Consult a qualified healthcare professional for personalised guidance.
         </div>
-      </div>
+      
+      <CalculatorExtras category="health" />
+</div>
     </>
   )
 }

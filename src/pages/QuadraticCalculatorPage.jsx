@@ -5,6 +5,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import QuadraticCalculator from '../components/calculators/QuadraticCalculator'
 import ShareButtons from '../components/ShareButtons'
 import { setPageMeta } from '../lib/seo'
+import CalculatorExtras from '../components/CalculatorExtras.jsx';
 
 const FAQ = [
   { q: "What is a quadratic equation?", a: "A quadratic equation has the form Ax^2 + Bx + C = 0 where A is not zero. It graphs as a parabola." },
@@ -73,7 +74,9 @@ export default function QuadraticCalculatorPage() {
             See all math tools <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
-      </div>
+      
+      <CalculatorExtras category="math" />
+</div>
     </>
   )
 }

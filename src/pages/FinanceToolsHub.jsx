@@ -98,7 +98,12 @@ export default function FinanceToolsHub() {
         <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-4 text-sm text-muted-foreground">
           <strong className="text-amber-700 dark:text-amber-400">Disclaimer:</strong> These tools are for informational purposes only and are not financial advice. Consult a licensed adviser for personal financial decisions.
         </div>
-      </div>
+      
+      <section className="hub-extras">
+        <h2>How to use this hub</h2>
+        <p>This hub gathers every finance calculator on TimeGovern — loans, mortgages, investments, retirement, and debt payoff — into one place. Each tool links to a full calculator with worked examples, so you can move from a quick estimate to a detailed scenario without leaving the site. Start with the calculator closest to your question and refine from there.</p>
+      </section>
+    </div>
     </>
   )
 }

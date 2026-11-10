@@ -5,6 +5,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import PrimeFactorizationCalculator from '../components/calculators/PrimeFactorizationCalculator'
 import ShareButtons from '../components/ShareButtons'
 import { setPageMeta } from '../lib/seo'
+import CalculatorExtras from '../components/CalculatorExtras.jsx';
 
 const FAQ = [
   { q: "What is prime factorization?", a: "Prime factorization breaks a number into the primes that multiply together to make it. 360 = 2 x 2 x 2 x 3 x 3 x 5, written as 2^3 x 3^2 x 5." },
@@ -71,7 +72,9 @@ export default function PrimeFactorizationCalculatorPage() {
             See all math tools <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
-      </div>
+      
+      <CalculatorExtras category="math" />
+</div>
     </>
   )
 }

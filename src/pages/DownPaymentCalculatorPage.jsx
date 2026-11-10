@@ -5,6 +5,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import DownPaymentCalculator from '../components/calculators/DownPaymentCalculator'
 import ShareButtons from '../components/ShareButtons'
 import { setPageMeta } from '../lib/seo'
+import CalculatorExtras from '../components/CalculatorExtras.jsx';
 
 const FAQ = [
   { q: "What is a down payment?", a: "The down payment is the portion of a home purchase you pay upfront in cash. The rest is financed with a mortgage. A 20 percent down payment typically avoids private mortgage insurance (PMI)." },
@@ -73,7 +74,9 @@ export default function DownPaymentCalculatorPage() {
             See all money tools <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
-      </div>
+      
+      <CalculatorExtras category="finance" />
+</div>
     </>
   )
 }

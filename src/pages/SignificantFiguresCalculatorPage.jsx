@@ -5,6 +5,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import SignificantFiguresCalculator from '../components/calculators/SignificantFiguresCalculator'
 import ShareButtons from '../components/ShareButtons'
 import { setPageMeta } from '../lib/seo'
+import CalculatorExtras from '../components/CalculatorExtras.jsx';
 
 const FAQ = [
   { q: "What are significant figures?", a: "Significant figures are the digits in a number that carry meaning contributing to its measurement precision. They tell you how confident you can be in a measured value." },
@@ -71,7 +72,9 @@ export default function SignificantFiguresCalculatorPage() {
             See all math tools <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
-      </div>
+      
+      <CalculatorExtras category="math" />
+</div>
     </>
   )
 }

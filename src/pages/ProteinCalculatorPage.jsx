@@ -6,6 +6,7 @@ import ProteinCalculator from '../components/calculators/ProteinCalculator'
 import ShareButtons from '../components/ShareButtons'
 import SaveCalculation from '../components/SaveCalculation'
 import { setPageMeta } from '../lib/seo'
+import CalculatorExtras from '../components/CalculatorExtras.jsx';
 
 const FAQ = [
   { q: "How much protein do I need?", a: "Sedentary adults need 0.8 g/kg. Active adults 1.2-1.6 g/kg. Strength training 1.6-2.2 g/kg. Older adults 1.0-1.2 g/kg to preserve muscle." },
@@ -82,7 +83,9 @@ export default function ProteinCalculatorPage() {
         <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-4 text-sm text-muted-foreground">
           <strong className="text-amber-700 dark:text-amber-400">Medical disclaimer:</strong> This calculator provides estimates for informational purposes only. It is not medical advice. Consult a qualified healthcare professional for personalised guidance.
         </div>
-      </div>
+      
+      <CalculatorExtras category="health" />
+</div>
     </>
   )
 }

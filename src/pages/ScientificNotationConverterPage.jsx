@@ -5,6 +5,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import ScientificNotationConverter from '../components/calculators/ScientificNotationConverter'
 import ShareButtons from '../components/ShareButtons'
 import { setPageMeta } from '../lib/seo'
+import CalculatorExtras from '../components/CalculatorExtras.jsx';
 
 const FAQ = [
   { q: "What is scientific notation?", a: "Scientific notation expresses numbers as m x 10^e where |m| is between 1 and 10 and e is an integer. 4500 becomes 4.5 x 10^3." },
@@ -71,7 +72,9 @@ export default function ScientificNotationConverterPage() {
             See all math tools <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
-      </div>
+      
+      <CalculatorExtras category="math" />
+</div>
     </>
   )
 }

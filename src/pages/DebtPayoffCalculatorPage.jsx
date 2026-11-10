@@ -5,6 +5,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import DebtPayoffCalculator from '../components/calculators/DebtPayoffCalculator'
 import ShareButtons from '../components/ShareButtons'
 import { setPageMeta } from '../lib/seo'
+import CalculatorExtras from '../components/CalculatorExtras.jsx';
 
 const FAQ = [
   { q: "How long will it take to pay off my credit card?", a: "It depends on your balance, APR and monthly payment. This calculator solves for the exact number of months using compounding. Higher payments dramatically shorten payoff time." },
@@ -73,7 +74,9 @@ export default function DebtPayoffCalculatorPage() {
             See all money tools <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
-      </div>
+      
+      <CalculatorExtras category="finance" />
+</div>
     </>
   )
 }

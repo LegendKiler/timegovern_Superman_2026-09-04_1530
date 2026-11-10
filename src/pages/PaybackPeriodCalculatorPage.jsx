@@ -5,6 +5,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import PaybackPeriodCalculator from '../components/calculators/PaybackPeriodCalculator'
 import ShareButtons from '../components/ShareButtons'
 import { setPageMeta } from '../lib/seo'
+import CalculatorExtras from '../components/CalculatorExtras.jsx';
 
 const FAQ = [
   { q: "What is payback period?", a: "Payback period is how long it takes for an investment's cash flows to repay the initial cost. A 3-year payback means you recover your money in 3 years." },
@@ -71,7 +72,9 @@ export default function PaybackPeriodCalculatorPage() {
             See all money tools <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
-      </div>
+      
+      <CalculatorExtras category="finance" />
+</div>
     </>
   )
 }

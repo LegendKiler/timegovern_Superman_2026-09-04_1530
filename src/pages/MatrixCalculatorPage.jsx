@@ -5,6 +5,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import MatrixCalculator from '../components/calculators/MatrixCalculator'
 import ShareButtons from '../components/ShareButtons'
 import { setPageMeta } from '../lib/seo'
+import CalculatorExtras from '../components/CalculatorExtras.jsx';
 
 const FAQ = [
   { q: "What is a determinant?", a: "For a 2x2 matrix [a, b; c, d], the determinant is ad - bc. It measures how the matrix scales area and tells you whether the matrix is invertible." },
@@ -71,7 +72,9 @@ export default function MatrixCalculatorPage() {
             See all math tools <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
-      </div>
+      
+      <CalculatorExtras category="math" />
+</div>
     </>
   )
 }

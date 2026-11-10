@@ -5,6 +5,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import AreaCalculator from '../components/calculators/AreaCalculator'
 import ShareButtons from '../components/ShareButtons'
 import { setPageMeta } from '../lib/seo'
+import CalculatorExtras from '../components/CalculatorExtras.jsx';
 
 const FAQ = [
   { q: "What is area?", a: "Area is the amount of two-dimensional space a shape covers, measured in square units (m2, ft2, etc.). It is calculated by multiplying two length dimensions." },
@@ -73,7 +74,9 @@ export default function AreaCalculatorPage() {
             See all math tools <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
-      </div>
+      
+      <CalculatorExtras category="math" />
+</div>
     </>
   )
 }

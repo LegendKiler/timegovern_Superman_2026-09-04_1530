@@ -5,6 +5,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import CAGRCalculator from '../components/calculators/CAGRCalculator'
 import ShareButtons from '../components/ShareButtons'
 import { setPageMeta } from '../lib/seo'
+import CalculatorExtras from '../components/CalculatorExtras.jsx';
 
 const FAQ = [
   { q: "What is CAGR?", a: "Compound Annual Growth Rate (CAGR) is the smoothed annual rate that would take an investment from a beginning value to an ending value over a given number of years. It is the geometric mean of yearly growth rates." },
@@ -73,7 +74,9 @@ export default function CAGRCalculatorPage() {
             See all money tools <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
-      </div>
+      
+      <CalculatorExtras category="finance" />
+</div>
     </>
   )
 }

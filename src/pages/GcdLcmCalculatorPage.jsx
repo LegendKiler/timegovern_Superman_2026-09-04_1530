@@ -5,6 +5,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import GcdLcmCalculator from '../components/calculators/GcdLcmCalculator'
 import ShareButtons from '../components/ShareButtons'
 import { setPageMeta } from '../lib/seo'
+import CalculatorExtras from '../components/CalculatorExtras.jsx';
 
 const FAQ = [
   { q: "What is the greatest common divisor?", a: "The GCD (also called GCF or HCF) is the largest positive integer that divides two or more numbers evenly. GCD of 12 and 18 is 6." },
@@ -71,7 +72,9 @@ export default function GcdLcmCalculatorPage() {
             See all math tools <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
-      </div>
+      
+      <CalculatorExtras category="math" />
+</div>
     </>
   )
 }

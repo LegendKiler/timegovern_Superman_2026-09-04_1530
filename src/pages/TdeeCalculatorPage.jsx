@@ -6,6 +6,7 @@ import TdeeCalculator from '../components/calculators/TdeeCalculator'
 import ShareButtons from '../components/ShareButtons'
 import SaveCalculation from '../components/SaveCalculation'
 import { setPageMeta } from '../lib/seo'
+import CalculatorExtras from '../components/CalculatorExtras.jsx';
 
 const FAQ = [
   { q: "What is TDEE?", a: "Total Daily Energy Expenditure is the total calories you burn per day: BMR (basal metabolism) times an activity multiplier that reflects how much you move." },
@@ -82,7 +83,9 @@ export default function TdeeCalculatorPage() {
         <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-4 text-sm text-muted-foreground">
           <strong className="text-amber-700 dark:text-amber-400">Medical disclaimer:</strong> This calculator provides estimates for informational purposes only. It is not medical advice. Consult a qualified healthcare professional for personalised guidance.
         </div>
-      </div>
+      
+      <CalculatorExtras category="health" />
+</div>
     </>
   )
 }

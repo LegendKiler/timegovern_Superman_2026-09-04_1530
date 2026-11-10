@@ -5,6 +5,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import LengthConverter from '../components/calculators/LengthConverter'
 import ShareButtons from '../components/ShareButtons'
 import { setPageMeta } from '../lib/seo'
+import CalculatorExtras from '../components/CalculatorExtras.jsx';
 
 const FAQ = [
   { q: "How many centimeters are in an inch?", a: "Exactly 2.54 cm. This conversion has been exact since 1959 when the international yard and pound agreement standardized the inch." },
@@ -71,7 +72,9 @@ export default function LengthConverterPage() {
             See all math tools <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
-      </div>
+      
+      <CalculatorExtras category="unit-conversion" />
+</div>
     </>
   )
 }

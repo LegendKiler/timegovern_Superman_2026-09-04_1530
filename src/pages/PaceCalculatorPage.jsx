@@ -6,6 +6,7 @@ import PaceCalculator from '../components/calculators/PaceCalculator'
 import ShareButtons from '../components/ShareButtons'
 import SaveCalculation from '../components/SaveCalculation'
 import { setPageMeta } from '../lib/seo'
+import CalculatorExtras from '../components/CalculatorExtras.jsx';
 
 const FAQ = [
   { q: "What is running pace?", a: "Pace is time per unit distance - typically minutes per kilometer or per mile. It is the inverse of speed. A 5:00/km pace equals 12 km/h." },
@@ -82,7 +83,9 @@ export default function PaceCalculatorPage() {
         <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-4 text-sm text-muted-foreground">
           <strong className="text-amber-700 dark:text-amber-400">Medical disclaimer:</strong> This calculator provides estimates for informational purposes only. It is not medical advice. Consult a qualified healthcare professional for personalised guidance.
         </div>
-      </div>
+      
+      <CalculatorExtras category="health" />
+</div>
     </>
   )
 }

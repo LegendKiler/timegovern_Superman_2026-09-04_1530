@@ -5,6 +5,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import VolumeCalculator from '../components/calculators/VolumeCalculator'
 import ShareButtons from '../components/ShareButtons'
 import { setPageMeta } from '../lib/seo'
+import CalculatorExtras from '../components/CalculatorExtras.jsx';
 
 const FAQ = [
   { q: "What is volume?", a: "Volume is the amount of three-dimensional space an object occupies, measured in cubic units (m3, ft3, etc.). It requires three length dimensions." },
@@ -73,7 +74,9 @@ export default function VolumeCalculatorPage() {
             See all math tools <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
-      </div>
+      
+      <CalculatorExtras category="math" />
+</div>
     </>
   )
 }
