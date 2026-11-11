@@ -22,7 +22,7 @@ export function AuthProvider({ children }) {
 
   // ==================== SAVED CALCULATIONS ====================
   const getCalculations = async (type = null) => {
-    if (!supabase || !user) return { data: [], error: { message: 'Not signed in' } }
+    if (!supabase || !user?.id) return { data: [], error: { message: 'Not signed in' } }
     let q = supabase
       .from('saved_calculations')
       .select('*')
@@ -34,7 +34,7 @@ export function AuthProvider({ children }) {
   }
 
   const saveCalculation = async (calc) => {
-    if (!supabase || !user) return { error: { message: 'Please sign in to save calculations' } }
+    if (!supabase || !user?.id) return { error: { message: 'Please sign in to save calculations' } }
     const { data, error } = await supabase
       .from('saved_calculations')
       .insert({
@@ -52,7 +52,7 @@ export function AuthProvider({ children }) {
   }
 
   const updateCalculation = async (id, updates) => {
-    if (!supabase || !user) return { error: { message: 'Not signed in' } }
+    if (!supabase || !user?.id) return { error: { message: 'Not signed in' } }
     const { data, error } = await supabase
       .from('saved_calculations')
       .update({ ...updates, updated_at: new Date().toISOString() })
@@ -64,7 +64,7 @@ export function AuthProvider({ children }) {
   }
 
   const deleteCalculation = async (id) => {
-    if (!supabase || !user) return { error: { message: 'Not signed in' } }
+    if (!supabase || !user?.id) return { error: { message: 'Not signed in' } }
     const { error } = await supabase
       .from('saved_calculations')
       .delete()
@@ -180,7 +180,7 @@ export function AuthProvider({ children }) {
   }
 
   const updateProfile = async (updates) => {
-    if (!supabase || !user) return { error: { message: 'Not signed in' } }
+    if (!supabase || !user?.id) return { error: { message: 'Not signed in' } }
     const { data, error } = await supabase
       .from('user_profiles')
       .update({ ...updates, updated_at: new Date().toISOString() })
@@ -285,7 +285,7 @@ export function AuthProvider({ children }) {
 
   // ==================== BOOKINGS ====================
   const saveBooking = async (booking) => {
-    if (!supabase || !user) return { error: { message: 'Please sign in to save bookings' } }
+    if (!supabase || !user?.id) return { error: { message: 'Please sign in to save bookings' } }
 
     const { data, error } = await supabase
       .from('bookings')
@@ -310,7 +310,7 @@ export function AuthProvider({ children }) {
   }
 
   const getBookings = async (type = null) => {
-    if (!supabase || !user) return { data: [], error: { message: 'Not signed in' } }
+    if (!supabase || !user?.id) return { data: [], error: { message: 'Not signed in' } }
 
     let query = supabase
       .from('bookings')
@@ -325,7 +325,7 @@ export function AuthProvider({ children }) {
   }
 
   const deleteBooking = async (id) => {
-    if (!supabase || !user) return { error: { message: 'Not signed in' } }
+    if (!supabase || !user?.id) return { error: { message: 'Not signed in' } }
     const { error } = await supabase
       .from('bookings')
       .delete()
@@ -335,7 +335,7 @@ export function AuthProvider({ children }) {
   }
 
   const updateBookingStatus = async (id, status) => {
-    if (!supabase || !user) return { error: { message: 'Not signed in' } }
+    if (!supabase || !user?.id) return { error: { message: 'Not signed in' } }
     const { data, error } = await supabase
       .from('bookings')
       .update({ status, updated_at: new Date().toISOString() })
@@ -348,7 +348,7 @@ export function AuthProvider({ children }) {
 
   // ==================== WIDGETS ====================
   const getWidgets = async () => {
-    if (!supabase || !user) return { data: [], error: { message: 'Not signed in' } }
+    if (!supabase || !user?.id) return { data: [], error: { message: 'Not signed in' } }
     const { data, error } = await supabase
       .from('widgets')
       .select('*')
@@ -358,7 +358,7 @@ export function AuthProvider({ children }) {
   }
 
   const saveWidget = async (widget) => {
-    if (!supabase || !user) return { error: { message: 'Please sign in first' } }
+    if (!supabase || !user?.id) return { error: { message: 'Please sign in first' } }
 
     // Plan limit
     const { data: existing } = await supabase.from('widgets').select('id').eq('user_id', user.id)
@@ -382,7 +382,7 @@ export function AuthProvider({ children }) {
   }
 
   const updateWidget = async (id, updates) => {
-    if (!supabase || !user) return { error: { message: 'Not signed in' } }
+    if (!supabase || !user?.id) return { error: { message: 'Not signed in' } }
     const { data, error } = await supabase
       .from('widgets')
       .update({ ...updates, updated_at: new Date().toISOString() })
@@ -394,7 +394,7 @@ export function AuthProvider({ children }) {
   }
 
   const deleteWidget = async (id) => {
-    if (!supabase || !user) return { error: { message: 'Not signed in' } }
+    if (!supabase || !user?.id) return { error: { message: 'Not signed in' } }
     const { error } = await supabase
       .from('widgets')
       .delete()
